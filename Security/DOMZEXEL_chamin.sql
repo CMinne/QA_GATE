@@ -1,0 +1,2 @@
+﻿CREATE USER [DOMZEXEL\chamin] FOR LOGIN [DOMZEXEL\chamin];
+
