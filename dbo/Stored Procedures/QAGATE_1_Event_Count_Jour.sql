@@ -29,7 +29,7 @@ BEGIN
 	FROM QAGATE_1_MainTable 
 	WHERE idPiece = @Last_Id_Piece																	-- Numéro d'OF
 
-	SELECT COUNT(idEvent) AS Arret																	-- Récupération du nombres d'arret depuis date + heure
+	SELECT COUNT(idEvent) AS 'Arret'																-- Récupération du nombres d'arret depuis date + heure
 	FROM QAGATE_1_EventData 
 	WHERE (timeStamp > @DateTime_H AND currentOF = @OF)				 
 

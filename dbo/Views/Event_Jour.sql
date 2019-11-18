@@ -1,4 +1,0 @@
-﻿CREATE VIEW [dbo].[Event_Jour]
-	AS SELECT currentOF, code, etat, CAST(timeStamp AS TIME(0)) AS 'timeStamp'
-	FROM dbo.QAGATE_1_EventData
-	WHERE (timeStamp > CAST(CAST(DATEADD(HOUR, -6, GETDATE()) AS DATE) AS DATETIME) + CAST('06:00:00' AS DATETIME)) AND (timeStamp < CAST(CAST(DATEADD(HOUR, 18, GETDATE()) AS DATE) AS DATETIME) + CAST('06:00:00' AS DATETIME))

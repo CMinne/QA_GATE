@@ -15,9 +15,9 @@ AS
 	SET NOCOUNT ON
 
 	DECLARE 
+			@Chokko SMALLINT,																		-- Chokko du jour en pourcent
 			@Date_H DATE,																			-- Date avec 6h de moins que la date du jour
 			@DateTime_H DATETIME,																	-- Date avec 6h de moins que la date du jour + heure fixe
-			@Chokko SMALLINT,																		-- Chokko du jour en pourcent
 			@Last_Id_Piece INT,																		-- Numéro d'OF de la dernière pièce
 			@OF VARCHAR(10),																		-- Numéro de l'OF
 			@Val_OK INT,																			-- Ex : Nbr pièce OK entre 06:00:00 08/10/19 et 04:42:16 09/10/19
@@ -37,7 +37,7 @@ BEGIN
 	FROM QAGATE_1_MainTable 
 	WHERE idPiece = @Last_Id_Piece																	-- Numéro d'OF
 
-	SELECT @Val_OK = COUNT(idPiece)																-- Récupération du nombres de pièces OK depuis date + heure (avec sécurité) 
+	SELECT @Val_OK = COUNT(idPiece)																	-- Récupération du nombres de pièces OK depuis date + heure (avec sécurité) 
 	FROM QAGATE_1_MainTable 
 	WHERE ((OK = 0 AND (keyenceEtat = 0 AND kogameEtat = 0)) AND timeStamp > @DateTime_H AND currentOF = @OF)
 

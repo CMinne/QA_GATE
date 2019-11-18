@@ -29,7 +29,7 @@ BEGIN
 	FROM QAGATE_1_MainTable 
 	WHERE idPiece = @Last_Id_Piece																	-- Récupération du code du dernier OF
 
-	SELECT COUNT(idEvent) AS Arret																	-- Récupération du nombres d'arret de l'OF
+	SELECT COUNT(idEvent) AS 'Arret'																-- Récupération du nombres d'arret de l'OF
 	FROM QAGATE_1_EventData 
 	WHERE (currentOF = @OF)				 
 

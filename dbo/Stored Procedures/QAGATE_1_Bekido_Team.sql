@@ -17,18 +17,18 @@ AS
 	SET NOCOUNT ON
 
 	DECLARE 
+			@Bekido SMALLINT,																		-- Bekido equipe en pourcent
+			@Bekido_S INT,																			-- Ex : Temps (secondes) entre 06:00:00 08/10/19 et l'heure actuelle 10:23:15 08/10/19
+			@Cycle DECIMAL(4,1),																	-- Temps de cycle nameReference 1
 			@Date_H DATE,																			-- Date avec 6h de moins que la date du jour
 			@DateTime_H DATETIME,																	-- Date avec 6h de moins que la date du jour + heure fixe
 			@DateTime_H2 DATETIME,																	-- Date avec 6h de moins que la date du jour + autre heure fixe
-			@Bekido_S INT,																			-- Ex : Temps (secondes) entre 06:00:00 08/10/19 et l'heure actuelle 10:23:15 08/10/19
-			@Prevision INT,																			-- Piece prévues à un moment précis
-			@Bekido SMALLINT,																		-- Bekido equipe en pourcent
-			@Last_Id_Piece INT,																		-- Numéro d'OF de la dernière pièce
 			@First_Id_Piece INT,																	-- Numéro du premier OF après 06:00:00
+			@Last_Id_Piece INT,																		-- Numéro d'OF de la dernière pièce
+			@Numero_Jour TINYINT,																	-- Numéro du jour, permet de différencier week-end et semaine
 			@OF VARCHAR(10),																		-- Numéro de l'OF
 			@Piece_Actu INT,																		-- Ex : Pieces analysées entre 06:00:00 08/10/19 et 13:52:11 08/10/19
-			@Numero_Jour TINYINT,																	-- Numéro du jour, permet de différencier week-end et semaine
-			@Cycle DECIMAL(4,1)																		-- Temps de cycle nameReference 1
+			@Prevision INT																			-- Piece prévues à un moment précis
 
 BEGIN
 
@@ -52,7 +52,7 @@ BEGIN
 
 					SELECT @OF = currentOF 
 					FROM QAGATE_1_MainTable 
-					WHERE idPiece = @Last_Id_Piece											-- Numéro d'OF
+					WHERE idPiece = @Last_Id_Piece													-- Numéro d'OF
 
 					IF((SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 						BEGIN																		-- Vérifie si la référence de la pièce juste après 06:00:00 et la dernière sont identiques
@@ -82,7 +82,7 @@ BEGIN
 																									-- Calcul prevision pièce (CAST ET ROUND pour permettre d'arrondir de manière scientifique)
 						END
 
-					SELECT @Piece_Actu = COUNT(idPiece)											-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
+					SELECT @Piece_Actu = COUNT(idPiece)												-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
 					FROM QAGATE_1_MainTable
 					WHERE (((OK = 0 AND (keyenceEtat = 0 AND kogameEtat = 0)) OR (OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1))) AND (@DateTime_H < timeStamp AND timeStamp < @DateTime_H2) AND currentOF = @OF)
 
@@ -99,7 +99,7 @@ BEGIN
 					FROM QAGATE_1_MainTable 
 					WHERE idPiece = @Last_Id_Piece													-- Numéro d'OF
 
-					IF((SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
+					IF((SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 						BEGIN																		-- Vérifie si la référence de la pièce juste après 06:00:00 et la dernière sont identiques
 																									-- Si pas, alors faire ceci
 							
@@ -127,7 +127,7 @@ BEGIN
 																									-- Calcul prevision pièce (CAST ET ROUND pour permettre d'arrondir de manière scientifique)	
 						END
 
-					SELECT @Piece_Actu = COUNT(idPiece)											-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
+					SELECT @Piece_Actu = COUNT(idPiece)												-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
 					FROM QAGATE_1_MainTable 
 					WHERE (((OK = 0 AND (keyenceEtat = 0 AND kogameEtat = 0)) OR (OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1))) AND (@DateTime_H < timeStamp AND timeStamp < @DateTime_H2) AND currentOF = @OF)
 
@@ -144,7 +144,7 @@ BEGIN
 					FROM QAGATE_1_MainTable 
 					WHERE idPiece = @Last_Id_Piece													-- Numéro d'OF
 
-					IF((SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
+					IF((SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 						BEGIN																		-- Vérifie si la référence de la pièce juste après 06:00:00 et la dernière sont identiques
 																									-- Si pas, alors faire ceci
 
@@ -172,7 +172,7 @@ BEGIN
 			
 						END
 
-					SELECT @Piece_Actu = COUNT(idPiece)											-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
+					SELECT @Piece_Actu = COUNT(idPiece)												-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
 					FROM QAGATE_1_MainTable 
 					WHERE (((OK = 0 AND (keyenceEtat = 0 AND kogameEtat = 0)) OR (OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1))) AND (@DateTime_H < timeStamp AND timeStamp < @DateTime_H2) AND currentOF = @OF) 
 

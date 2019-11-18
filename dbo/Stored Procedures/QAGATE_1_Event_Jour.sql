@@ -29,7 +29,7 @@ BEGIN
 	FROM QAGATE_1_MainTable 
 	WHERE idPiece = @Last_Id_Piece																	-- Numéro d'OF
 
-	SELECT Code, CONVERT(TIME(0), timeStamp) AS 'timeStamp'											-- Récupération des arrets + heure depuis date + heure
+	SELECT code, CONVERT(TIME(0), timeStamp) AS 'timeStamp'											-- Récupération des arrets + heure depuis date + heure
 	FROM QAGATE_1_EventData 
 	WHERE (timeStamp > @DateTime_H AND currentOF = @OF)				 
 

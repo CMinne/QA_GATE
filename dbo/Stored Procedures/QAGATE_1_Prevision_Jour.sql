@@ -14,17 +14,16 @@ AS
 	SET NOCOUNT ON
 
 	DECLARE 
+			@Actuel INT,																			-- Ex : Actuel de pièce entre 06:00:00 08/10/19 et l'heure actuelle 04:52:11 09/10/19
+			@Cycle DECIMAL(4,1),																		-- Temps de cycle
 			@Date_H DATE,																			-- Date avec 6h de moins que la date du jour
 			@DateTime_H DATETIME,																	-- Date avec 6h de moins que la date du jour + 06:00:00
-			@Temps_S INT,																			-- Ex : Temps (secondes) entre 06:00:00 08/10/19 et l'heure actuelle 10:23:15 08/10/19
-			@Prevision INT,																			-- Ex : Prévision de pièce entre 06:00:00 08/10/19 et l'heure actuelle 04:52:11 09/10/19
-			@Actuel INT,																			-- Ex : Actuel de pièce entre 06:00:00 08/10/19 et l'heure actuelle 04:52:11 09/10/19
 			@Delta INT,																				-- Ex : Delta de pièce entre 06:00:00 08/10/19 et l'heure actuelle 04:52:11 09/10/19
-			@Last_Id_Piece INT,																		-- Numéro d'OF de la dernière pièce
 			@First_Id_Piece INT,																	-- Numéro du premier OF après 06:00:00
+			@Last_Id_Piece INT,																		-- Numéro d'OF de la dernière pièce
 			@OF VARCHAR(10),																		-- Numéro OF
-			@Cycle DECIMAL(4,1)																		-- Temps de cycle
-
+			@Prevision INT,																			-- Ex : Prévision de pièce entre 06:00:00 08/10/19 et l'heure actuelle 04:52:11 09/10/19
+			@Temps_S INT																			-- Ex : Temps (secondes) entre 06:00:00 08/10/19 et l'heure actuelle 10:23:15 08/10/19
 
 BEGIN
 
@@ -42,7 +41,7 @@ BEGIN
 	FROM QAGATE_1_MainTable 
 	WHERE idPiece = @Last_Id_Piece																	-- Numéro d'OF
 
-	SELECT @Actuel = COUNT(idPiece)																-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
+	SELECT @Actuel = COUNT(idPiece)																	-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
 	FROM QAGATE_1_MainTable 
 	WHERE (((OK = 0 AND (keyenceEtat=0 AND kogameEtat=0))    OR    (OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1)))   AND   timeStamp > @DateTime_H AND currentOF = @OF)
 

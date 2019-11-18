@@ -18,14 +18,15 @@ AS
 	DECLARE
 			@First SMALLINT,																		-- Valeur du problème en top 1
 			@First_Name VARCHAR(15),																-- Nom du problème en top 1
+			@Last_Id_Piece INT,																		-- Numéro d'id de la dernière pièce
+			@OF VARCHAR(10),																		-- Numero du dernier OF
+			@Other SMALLINT,																		-- Valeur des autres problèmes
+			@Reference VARCHAR(15),																	-- Reference PG du dernier OF
 			@Second SMALLINT,																		-- Valeur du problème en top 2
 			@Second_Name VARCHAR(15),																-- Nom du problème en top 2
 			@Third SMALLINT,																		-- Valeur du problème en top 3
-			@Third_Name VARCHAR(15),																-- Nom du problème en top 3
-			@Other SMALLINT,																		-- Valeur des autres problèmes
-			@OF VARCHAR(10),																	-- Numero du dernier OF
-			@Last_Id_Piece INT,																		-- Numéro d'id de la dernière pièce
-			@Reference VARCHAR(15)																	-- Reference PG du dernier OF
+			@Third_Name VARCHAR(15)																	-- Nom du problème en top 3
+			
 BEGIN
 
 	SELECT @Last_Id_Piece = MAX(idPiece) 

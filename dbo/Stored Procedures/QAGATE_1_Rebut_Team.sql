@@ -21,13 +21,14 @@ AS
 			@DateTime_H DATETIME,																	-- Date avec 6h de moins que la date du jour + heure fixe
 			@DateTime_H2 DATETIME,																	-- Date avec 6h de moins que la date du jour + autre heure fixe
 			@Last_Id_Piece INT,																		-- Numéro d'OF de la dernière pièce
-			@OF VARCHAR(10),																		-- Numéro de l'OF
 			@Numero_Jour TINYINT,																	-- Numéro du jour, permet de différencier week-end et semaine
-			@Rebut_Tot INT,																			-- Ex : Nbr de rebut entre 06:00:00 08/10/19 et 04:42:16 09/10/19
-			@Rebut_Key INT,																			-- Ex : Nbr de rebut keyence entre 06:00:00 08/10/19 et 04:42:16 09/10/19
-			@Rebut_Kog INT,																			-- Ex : Nbr de rebut kogame entre 06:00:00 08/10/19 et 04:42:16 09/10/19
+			@OF VARCHAR(10),																		-- Numéro de l'OF
 			@Pourcent_Key SMALLINT,																	-- Pourcentage de pièce mauvaise Keyence 
-			@Pourcent_Kog SMALLINT																	-- Pourcentage de pièce mauvaise Kogame
+			@Pourcent_Kog SMALLINT,																	-- Pourcentage de pièce mauvaise Kogame
+			@Rebut_Tot SMALLINT,																	-- Ex : Nbr de rebut entre 06:00:00 08/10/19 et 04:42:16 09/10/19
+			@Rebut_Key SMALLINT,																	-- Ex : Nbr de rebut keyence entre 06:00:00 08/10/19 et 04:42:16 09/10/19
+			@Rebut_Kog SMALLINT																		-- Ex : Nbr de rebut kogame entre 06:00:00 08/10/19 et 04:42:16 09/10/19
+			
 
 BEGIN
 

@@ -16,19 +16,20 @@ AS
 	SET NOCOUNT ON
 
 	DECLARE 
+			@Bekido SMALLINT,																		-- Bekido du jour en pourcent
+			@Bekido_S INT,																			-- Ex : Temps (secondes) entre 06:00:00 08/10/19 et l'heure actuelle  04:23:15 09/10/19
+			@Cycle DECIMAL(4,1),																	-- Temps de cycle
+			@Date DATE,																				-- Variable date
 			@DateTime_OF_Last DATETIME,																-- Date de la dernière pièce de l'OF
 			@DateTime_OF_First DATETIME,															-- Date de la premiere pièce de l'OF
-			@Bekido_S INT,																			-- Ex : Temps (secondes) entre 06:00:00 08/10/19 et l'heure actuelle  04:23:15 09/10/19
-			@Prevision INT,																			-- Nombre de pieces prévues à un moment précis
-			@Bekido SMALLINT,																		-- Bekido du jour en pourcent
+			@Heure TIME(0),																			-- Variable Heure
 			@Last_Id_Piece INT,																		-- Numéro d'OF de la dernière pièce
 			@OF VARCHAR(10),																		-- OF Actuel
 			@Piece_Actu INT,																		-- Ex : Pieces analysées entre 06:00:00 08/10/19 et l'heure actuelle  04:23:15 09/10/19
-			@Cycle DECIMAL(4,1),																	-- Temps de cycle
-			@Count_Piece INT,
-			@Temp_Count_Piece INT,
-			@Heure TIME(0),
-			@Date DATE
+			@Prevision INT,																			-- Nombre de pieces prévues à un moment précis
+			@Temp_Count_Piece INT																	-- Compteur de pièce temporaire
+			
+			
 
 BEGIN
 
@@ -47,10 +48,10 @@ BEGIN
 
 			SET @Bekido_S = DATEDIFF(SECOND, @DateTime_OF_First, CONCAT(CAST(@DateTime_OF_First AS DATE), ' ', '14:00:00'))
 			
-																										-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF
+																									-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF
 
-			SET @Heure = CAST('14:00:00' AS TIME(0))
-			SET @Date = CAST(@DateTime_OF_First AS DATE)
+			SET @Heure = CAST('14:00:00' AS TIME(0))												-- Set variable @Heure à 14:00:00 pour dire que c'est à partir de là qu'il faut regarder maintenant 
+			SET @Date = CAST(@DateTime_OF_First AS DATE)											-- Set variable @Date à jour de la première pièce de l'OF pour dire que c'est à partir de là qu'il faut regarder maintenant 
 
 		END
 
@@ -58,10 +59,10 @@ BEGIN
 		BEGIN
 
 			SET @Bekido_S = DATEDIFF(SECOND, @DateTime_OF_First, CONCAT(CAST(@DateTime_OF_First AS DATE), ' ', '22:00:00'))						
-																										-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF
+																									-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF
 			
-			SET @Heure = CAST('22:00:00' AS TIME(0))
-			SET @Date = CAST(@DateTime_OF_First AS DATE)
+			SET @Heure = CAST('22:00:00' AS TIME(0))												-- Set variable @Heure à 22:00:00 pour dire que c'est à partir de là qu'il faut regarder maintenant 
+			SET @Date = CAST(@DateTime_OF_First AS DATE)											-- Set variable @Date à jour de la première pièce de l'OF pour dire que c'est à partir de là qu'il faut regarder maintenant 
 
 		END
 
@@ -69,10 +70,10 @@ BEGIN
 		BEGIN
 
 			SET @Bekido_S = DATEDIFF(SECOND, @DateTime_OF_First, CONCAT(DATEADD(DAY, 1, CAST(@DateTime_OF_First AS DATE)), ' ', '06:00:00'))						
-																										-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF.
+																									-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF.
 
-			SET @Heure = CAST('06:00:00' AS TIME(0))
-			SET @Date = DATEADD(DAY, 1, CAST(@DateTime_OF_First AS DATE))
+			SET @Heure = CAST('06:00:00' AS TIME(0))												-- Set variable @Heure à 06:00:00 pour dire que c'est à partir de là qu'il faut regarder maintenant
+			SET @Date = DATEADD(DAY, 1, CAST(@DateTime_OF_First AS DATE))							-- Set variable @Date à jour + 1 de la première pièce de l'OF pour dire que c'est à partir de là qu'il faut regarder maintenant 
 		
 		END
 	
@@ -80,25 +81,25 @@ BEGIN
 		BEGIN
 			SELECT @Temp_Count_Piece = COUNT(idPiece) 
 			FROM QAGATE_1_MainTable 
-			WHERE currentOF = @OF AND timeStamp >= CONCAT(@Date, ' ', DATEADD(HOUR, 8, @Heure))
+			WHERE currentOF = @OF AND timeStamp >= CONCAT(@Date, ' ', DATEADD(HOUR, 8, @Heure))		-- Compte si il reste des pièces après date heure+8. Détermine si on est dans le dernier créneau horaire. 
 
 
-			IF(NOT(@Temp_Count_Piece = 0))
+			IF(NOT(@Temp_Count_Piece = 0))															-- Si il y a des pièces
 				BEGIN
-					IF(@Heure = '06:00:00' OR @Heure = '14:00:00')
+					IF(@Heure = '06:00:00' OR @Heure = '14:00:00')									-- Si la varaible @Heure vaut 06:00:00 ou 14:00:00 (Deux modes dus au passage de jour de 22:00:00/06:00:00)
 						BEGIN
 
 							SELECT @Temp_Count_Piece = COUNT(idPiece) 
 							FROM QAGATE_1_MainTable 
 							WHERE currentOF = @OF AND (timeStamp >= CONCAT(CAST(@Date AS DATE), ' ', @Heure) AND timeStamp < CONCAT(CAST(@Date AS DATE), ' ', DATEADD(HOUR, 8, @Heure)))
-
-							IF(NOT(@Temp_Count_Piece = 0))
+																									-- Compte le nombre de pièce entre le créneau 06:00:00/14:00:00 ou 14:00:00/22:00:00
+							IF(NOT(@Temp_Count_Piece = 0))											-- Si il y a des pièces dans ce créneau
 								BEGIN
 
-									SET @Bekido_S += DATEDIFF(SECOND, '00:00:00', '08:00:00' )
+									SET @Bekido_S += DATEDIFF(SECOND, '00:00:00', '08:00:00' )		-- Alors on ajoute les 8h d'ouverture de la ligne (Car il y a normalement un opérateur présent)
 
 								END
-							SET @Heure = CAST(DATEADD(HOUR, 8, @Heure) AS TIME(0))
+							SET @Heure = CAST(DATEADD(HOUR, 8, @Heure) AS TIME(0))					-- On avance d'un créneau
 
 						END
 
@@ -108,15 +109,15 @@ BEGIN
 							SELECT @Temp_Count_Piece = COUNT(idPiece) 
 							FROM QAGATE_1_MainTable 
 							WHERE currentOF = @OF AND (timeStamp >= CONCAT(CAST(@Date AS DATE), ' ', @Heure) AND timeStamp < CONCAT(DATEADD(DAY, 1, CAST(@Date AS DATE)), ' ', DATEADD(HOUR, 8, @Heure)))
-
-							IF(NOT(@Temp_Count_Piece = 0))
+																									-- Compte le nombre de pièce entre le créneau 22:00:00/06:00:00
+							IF(NOT(@Temp_Count_Piece = 0))											-- Si il y a des pièces dans ce créneau
 								BEGIN
 
-									SET @Bekido_S += DATEDIFF(SECOND, '00:00:00', '08:00:00' )
+									SET @Bekido_S += DATEDIFF(SECOND, '00:00:00', '08:00:00' )		-- Alors on ajoute les 8h d'ouverture de la ligne (Car il y a normalement un opérateur présent)
 
 								END
-							SET @Heure = CAST(DATEADD(HOUR, 8, @Heure) AS TIME(0))
-							SET @Date = DATEADD(DAY, 1, @Date)
+							SET @Heure = CAST(DATEADD(HOUR, 8, @Heure) AS TIME(0))					-- On avance d'un créneau
+							SET @Date = DATEADD(DAY, 1, @Date)										-- On avance d'un jour
 						END
 
 					CONTINUE

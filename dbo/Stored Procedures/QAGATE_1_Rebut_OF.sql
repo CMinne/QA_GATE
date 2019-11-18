@@ -13,11 +13,12 @@ AS
 	DECLARE 
 			@Last_Id_Piece INT,																		-- Numéro d'id de la dernière pièce
 			@Last_OF VARCHAR(10),																	-- Numéro d'OF de la dernière pièce
+			@Pourcent_Key SMALLINT,																	-- Pourcentage de pièce mauvaise Keyence 
+			@Pourcent_Kog SMALLINT,																	-- Pourcentage de pièce mauvaise Kogame
 			@Rebut_Tot INT,																			-- Ex : Nbr de rebut entre 06:00:00 08/10/19 et 04:42:16 09/10/19
 			@Rebut_Key INT,																			-- Ex : Nbr de rebut keyence entre 06:00:00 08/10/19 et 04:42:16 09/10/19
-			@Rebut_Kog INT,																			-- Ex : Nbr de rebut kogame entre 06:00:00 08/10/19 et 04:42:16 09/10/19
-			@Pourcent_Key SMALLINT,																	-- Pourcentage de pièce mauvaise Keyence 
-			@Pourcent_Kog SMALLINT																	-- Pourcentage de pièce mauvaise Kogame
+			@Rebut_Kog INT																			-- Ex : Nbr de rebut kogame entre 06:00:00 08/10/19 et 04:42:16 09/10/19
+			
 
 BEGIN
 

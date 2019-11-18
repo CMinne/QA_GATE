@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="QA_GATE.publish.xml" />
+    <None Include="QA_GATE_1.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\QAGATE_1_EventData.sql">
@@ -179,7 +180,7 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Views\Event_Jour.sql">
+    <Build Include="dbo\Views\QAGATE_1_EventJour.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>

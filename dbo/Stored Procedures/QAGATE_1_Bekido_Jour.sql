@@ -17,16 +17,16 @@ AS
 	SET NOCOUNT ON																					-- Obligatoire
 
 	DECLARE 
+			@Bekido SMALLINT,																		-- Bekido du jour en pourcent
+			@Bekido_S INT,																			-- Ex : Temps (secondes) entre 06:00:00 08/10/19 et l'heure actuelle 10:23:15 08/10/19
+			@Cycle DECIMAL(4,1),																	-- Temps de cycle reference
 			@Date_H DATE,																			-- Date avec 6h de moins que la date du jour
 			@DateTime_H DATETIME,																	-- Date avec 6h de moins que la date du jour + l'heure 06:00:00
-			@Bekido_S INT,																			-- Ex : Temps (secondes) entre 06:00:00 08/10/19 et l'heure actuelle 10:23:15 08/10/19
-			@Prevision INT,																			-- Nombre de pieces prévues à un moment précis
-			@Bekido SMALLINT,																		-- Bekido du jour en pourcent
-			@Piece_Actu INT,																		-- Ex : Pieces analysées entre 06:00:00 08/10/19 et l'heure actuelle 04:23:15 09/10/19
-			@Cycle DECIMAL(4,1),																	-- Temps deQAGATE_1_Cyclereference 1
-			@Last_Id_Piece INT,																		-- Numéro d'OF de la dernière pièce
 			@First_Id_Piece INT,																	-- Numéro du premier OF après 06:00:00
-			@OF VARCHAR(10)																			-- Numéro de l'OF
+			@Last_Id_Piece INT,																		-- Numéro d'OF de la dernière pièce
+			@OF VARCHAR(10),																		-- Numéro de l'OF
+			@Piece_Actu INT,																		-- Ex : Pieces analysées entre 06:00:00 08/10/19 et l'heure actuelle 04:23:15 09/10/19
+			@Prevision INT																			-- Nombre de pieces prévues à un moment précis
 
 BEGIN
 

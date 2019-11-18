@@ -12,12 +12,12 @@ AS
 	SET NOCOUNT ON
 
 	DECLARE 
+			@Avancement DECIMAL(5,1),																-- Avancement en pourcent
+			@First_Id_Piece INT,																	-- Numéro d'id de la première pièce
 			@Last_Id_Piece INT,																		-- Numéro d'id de la dernière pièce
 			@Last_OF VARCHAR(10),																	-- Numéro d'OF de la dernière pièce
-			@First_Id_Piece INT,																	-- Numéro d'id de la première pièce
 			@Nbr_Piece_Actu INT,																	-- Nombre de pièce pour l'OF
 			@Nbr_piece INT,																			-- Nombre de pièce totale
-			@Avancement DECIMAL(5,1),																-- Avancement en pourcent
 			@Valeur_Date_OF VARCHAR(10)																-- VARCHAR pour des questions de mise en page (JJ/MM/AA)
 BEGIN
 

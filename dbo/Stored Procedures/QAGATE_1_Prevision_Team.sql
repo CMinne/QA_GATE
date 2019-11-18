@@ -1,7 +1,7 @@
 ﻿-- =============================================
 -- Author: <Minne Charly>
 -- Create date: <05/11/2019>
--- Update : <12/11/2019>
+-- Update : <18/11/2019>
 -- Description:	< Ce programme permet d'obtenir les prévions, les pièces actuelles, et le delta d'une équipe. Ne se base pas sur le numéro de l'OF. >
 -- =============================================
 
@@ -15,20 +15,18 @@ AS
 	SET NOCOUNT ON
 
 	DECLARE 
+			@Actuel SMALLINT,																		-- Ex : Actuel de pièce entre 06:00:00 08/10/19 et l'heure actuelle 04:52:11 09/10/19
+			@Cycle DECIMAL(4,1),																	-- Temps de cycle reference 1
 			@Date_H DATE,																			-- Date avec 6h de moins que la date du jour
 			@DateTime_H DATETIME,																	-- Date avec 6h de moins que la date du jour + heure fixe
 			@DateTime_H2 DATETIME,																	-- Date avec 6h de moins que la date du jour + autre heure fixe
-			@Temps_S INT,																			-- Ex : Temps (secondes) entre 06:00:00 08/10/19 et l'heure actuelle 10:23:15 08/10/19
-			@Temps_SBis INT,																		-- Ex : Temps (secondes) entre 10:47:32 08/10/19 et l'heure actuelle 04:52:11 09/10/19
-			@Prevision INT,																			-- Ex : Prévision de pièce entre 06:00:00 08/10/19 et l'heure actuelle 04:52:11 09/10/19
-			@Actuel INT,																			-- Ex : Actuel de pièce entre 06:00:00 08/10/19 et l'heure actuelle 04:52:11 09/10/19
-			@Delta INT,																				-- Ex : Delta de pièce entre 06:00:00 08/10/19 et l'heure actuelle 04:52:11 09/10/19
-			@Last_Id_Piece INT,																		-- Numéro d'OF de la dernière pièce
+			@Delta SMALLINT,																		-- Ex : Delta de pièce entre 06:00:00 08/10/19 et l'heure actuelle 04:52:11 09/10/19
 			@First_Id_Piece INT,																	-- Numéro du premier OF après 06:00:00
-			@OF VARCHAR(10),																		-- Numéro de l'OF
+			@Last_Id_Piece INT,																		-- Numéro d'OF de la dernière pièce
 			@Numero_Jour TINYINT,																	-- Numéro du jour, permet de différencier week-end et semaine
-			@Cycle1 DECIMAL(4,1),																	-- Temps de cycle reference 1
-			@Cycle2 DECIMAL(4,1)																	-- Temps de cycle reference 2
+			@OF VARCHAR(10),																		-- Numéro de l'OF
+			@Prevision SMALLINT,																	-- Ex : Prévision de pièce entre 06:00:00 08/10/19 et l'heure actuelle 04:52:11 09/10/19
+			@Temps_S INT																			-- Ex : Temps (secondes) entre 06:00:00 08/10/19 et l'heure actuelle 10:23:15 08/10/19
 
 BEGIN
 
@@ -50,51 +48,39 @@ BEGIN
 					SELECT @DateTime_H = CAST(@Date_H AS DATETIME) + CAST('06:00:00' AS DATETIME)	-- Ajout de l'heure 06:00:00 à cette date
 					SELECT @DateTime_H2 = CAST(@Date_H AS DATETIME) + CAST('14:00:00' AS DATETIME)	-- Ajout de l'heure 14:00:00 à cette date
 
-					SELECT @Actuel = COUNT(idPiece)												-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
+					SELECT @Actuel = COUNT(idPiece)													-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
 					FROM QAGATE_1_MainTable 
 					WHERE (((OK = 0 AND (keyenceEtat = 0 AND kogameEtat = 0)) OR (OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1))) AND (@DateTime_H < timeStamp AND timeStamp < @DateTime_H2))
 
-					IF((SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
+					SELECT @OF = currentOF 
+					FROM QAGATE_1_MainTable 
+					WHERE idPiece = @Last_Id_Piece													-- Numéro d'OF
+
+					IF((SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 						BEGIN																		-- Vérifie si la référence de la pièce juste après 06:00:00 et la dernière sont identiques
 																									-- Si pas, alors faire ceci
 
-							SELECT @OF = currentOF 
-							FROM QAGATE_1_MainTable 
-							WHERE idPiece = @First_Id_Piece										-- Numéro d'OF de la première référénce
-
-							SELECT @Temps_S = DATEDIFF(second, @DateTime_H, (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp DESC))
-																									-- Calcul le temps entre 06:00:00 et la dernière pièce de la première référence
-
-							SELECT @OF = currentOF 
-							FROM QAGATE_1_MainTable 
-							WHERE idPiece = @Last_Id_Piece											-- Numéro d'OF de la deuxième référénce
-
-							SELECT @Temps_SBis = DATEDIFF(second, (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp ASC), GETDATE())
+							SELECT @Temps_S = DATEDIFF(SECOND, (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp ASC), GETDATE())
 																									-- Calcul le temps entre l'heure de la premièrre pièce de la deuxième référence et maintenant
 
-							SELECT @Cycle1 = tempsCycle 
-							FROM QAGATE_1_Cycle 
-							WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece))							
-																									-- Récupération temps de cycle reference 1
-
-							SELECT @Cycle2 = tempsCycle 
+							SELECT @Cycle = tempsCycle 
 							FROM QAGATE_1_Cycle 
 							WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))							
-																									-- Récupération temps de cycle reference 2
+																									-- Récupération temps de cycle
 
-							SELECT @Prevision = ROUND((CAST(@Temps_S AS FLOAT)/CAST(@Cycle1 AS FLOAT)) + (CAST(@Temps_SBis AS FLOAT)/CAST(@Cycle2 AS FLOAT)), 0)
+							SELECT @Prevision = ROUND((CAST(@Temps_S AS FLOAT)/CAST(@Cycle AS FLOAT)), 0)
 																									-- Calcul prevision pièce (CAST ET ROUND pour permettre d'arrondir de manière scientifique)
 						END
 					ELSE
 						BEGIN
 							SELECT @Temps_S = DATEDIFF(second, @DateTime_H, GETDATE())				-- Récupération des secondes entre maintenant et la date + heure
 
-							SELECT @Cycle1 = tempsCycle 
+							SELECT @Cycle = tempsCycle 
 							FROM QAGATE_1_Cycle 
 							WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 																									-- Récupération temps de cycle
 
-							SELECT @Prevision = ROUND((CAST(@Temps_S AS FLOAT)/CAST(@Cycle1 AS FLOAT)),0)
+							SELECT @Prevision = ROUND((CAST(@Temps_S AS FLOAT)/CAST(@Cycle AS FLOAT)),0)
 																									-- Calcul prevision pièce (CAST ET ROUND pour permettre d'arrondir de manière scientifique)
 						END
 
@@ -107,51 +93,39 @@ BEGIN
 					SELECT @DateTime_H = CAST(@Date_H AS DATETIME) + CAST('14:00:00' AS DATETIME)	-- Ajout de l'heure 14:00:00 à cette date
 					SELECT @DateTime_H2 = CAST(@Date_H AS DATETIME) + CAST('22:00:00' AS DATETIME)	-- Ajout de l'heure 22:00:00 à cette date
 
-					SELECT @Actuel = COUNT(idPiece)												-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
+					SELECT @Actuel = COUNT(idPiece)													-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
 					FROM QAGATE_1_MainTable 
 					WHERE (((OK = 0 AND (keyenceEtat = 0 AND kogameEtat = 0)) OR (OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1))) AND (@DateTime_H < timeStamp AND timeStamp < @DateTime_H2))
 
-					IF((SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
+					SELECT @OF = currentOF 
+					FROM QAGATE_1_MainTable 
+					WHERE idPiece = @Last_Id_Piece													-- Numéro d'OF
+
+					IF((SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 						BEGIN																		-- Vérifie si la référence de la pièce juste après 06:00:00 et la dernière sont identiques
 																									-- Si pas, alors faire ceci
-
-							SELECT @OF = currentOF 
-							FROM QAGATE_1_MainTable 
-							WHERE idPiece = @First_Id_Piece										-- Numéro d'OF de la première référénce
-
-							SELECT @Temps_S = DATEDIFF(second, @DateTime_H, (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp DESC))
-																									-- Calcul le temps entre 14:00:00 et la dernière pièce de la première référence
-
-							SELECT @OF = currentOF 
-							FROM QAGATE_1_MainTable 
-							WHERE idPiece = @Last_Id_Piece											-- Numéro d'OF de la deuxième référénce
-
-							SELECT @Temps_SBis = DATEDIFF(second, (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp ASC), GETDATE())
+							
+							SELECT @Temps_S = DATEDIFF(second, (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp ASC), GETDATE())
 																									-- Calcul le temps entre l'heure de la premièrre pièce de la deuxième référence et maintenant
 
-							SELECT @Cycle1 = tempsCycle 
-							FROM QAGATE_1_Cycle 
-							WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece))							
-																									-- Récupération temps de cycle reference 1
-
-							SELECT @Cycle2 = tempsCycle 
+							SELECT @Cycle = tempsCycle 
 							FROM QAGATE_1_Cycle 
 							WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))							
-																									-- Récupération temps de cycle reference 2
+																									-- Récupération temps de cycle
 
-							SELECT @Prevision = ROUND((CAST(@Temps_S AS FLOAT)/CAST(@Cycle1 AS FLOAT)) + (CAST(@Temps_SBis AS FLOAT)/CAST(@Cycle2 AS FLOAT)), 0)
+							SELECT @Prevision = ROUND((CAST(@Temps_S AS FLOAT)/CAST(@Cycle AS FLOAT)), 0)
 																									-- Calcul prevision pièce (CAST ET ROUND pour permettre d'arrondir de manière scientifique)
 						END
 					ELSE
 						BEGIN
 							SELECT @Temps_S = DATEDIFF(second, @DateTime_H, GETDATE())				-- Récupération des secondes entre maintenant et la date + heure
 
-							SELECT @Cycle1 = tempsCycle 
+							SELECT @Cycle = tempsCycle 
 							FROM QAGATE_1_Cycle 
 							WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 																									-- Récupération temps de cycle
 
-							SELECT @Prevision = ROUND((CAST(@Temps_S AS FLOAT)/CAST(@Cycle1 AS FLOAT)),0)			
+							SELECT @Prevision = ROUND((CAST(@Temps_S AS FLOAT)/CAST(@Cycle AS FLOAT)),0)			
 																									-- Calcul prevision pièce (CAST ET ROUND pour permettre d'arrondir de manière scientifique)	
 						END
 
@@ -164,52 +138,40 @@ BEGIN
 					SELECT @DateTime_H = CAST(@Date_H AS DATETIME) + CAST('22:00:00' AS DATETIME)	-- Ajout de l'heure 22:00:00 à cette date
 					SELECT @DateTime_H2 = CAST(CAST(DATEADD(HOUR,+2,GETDATE()) AS DATE) AS DATETIME) + CAST('06:00:00' AS DATETIME) -- Ajout de l'heure 06:00:00 à cette date + 1 jour
 
-					SELECT @Actuel = COUNT(idPiece)												-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
+					SELECT @Actuel = COUNT(idPiece)													-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
 					FROM QAGATE_1_MainTable 
 					WHERE (((OK = 0 AND (keyenceEtat = 0 AND kogameEtat = 0)) OR (OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1))) AND (@DateTime_H < timeStamp AND timeStamp < @DateTime_H2)) 
 
-					IF((SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
+					SELECT @OF = currentOF 
+					FROM QAGATE_1_MainTable 
+					WHERE idPiece = @Last_Id_Piece													-- Numéro d'OF
+
+					IF((SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 						BEGIN																		-- Vérifie si la référence de la pièce juste après 06:00:00 et la dernière sont identiques
 																									-- Si pas, alors faire ceci
 
-							SELECT @OF = currentOF 
-							FROM QAGATE_1_MainTable 
-							WHERE idPiece = @First_Id_Piece										-- Numéro d'OF de la première référénce
+							SELECT @Temps_S = DATEDIFF(second, (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp ASC), GETDATE())
 
-							SELECT @Temps_S = DATEDIFF(second, @DateTime_H, (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp DESC))
-																									-- Calcul le temps entre 22:00:00 et la dernière pièce de la première référence
-
-							SELECT @OF = currentOF 
-							FROM QAGATE_1_MainTable 
-							WHERE idPiece = @Last_Id_Piece											-- Numéro d'OF de la deuxième référénce
-
-							SELECT @Temps_SBis = DATEDIFF(second, (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp ASC), GETDATE())
-																									-- Calcul le temps entre l'heure de la premièrre pièce de la deuxième référence et maintenant
-
-							SELECT @Cycle1 = tempsCycle 
-							FROM QAGATE_1_Cycle 
-							WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece))							
-																									-- Récupération temps de cycle reference 1
-
-							SELECT @Cycle2 = tempsCycle 
+							SELECT @Cycle = tempsCycle 
 							FROM QAGATE_1_Cycle 
 							WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))							
-																									-- Récupération temps de cycle reference 2
+																									-- Récupération temps de cycle
 
-							SELECT @Prevision = ROUND((CAST(@Temps_S AS FLOAT)/CAST(@Cycle1 AS FLOAT)) + (CAST(@Temps_SBis AS FLOAT)/CAST(@Cycle2 AS FLOAT)), 0)
+							SELECT @Prevision = ROUND((CAST(@Temps_S AS FLOAT)/CAST(@Cycle AS FLOAT)), 0)
 																									-- Calcul prevision pièce (CAST ET ROUND pour permettre d'arrondir de manière scientifique)
 						END
 					ELSE
 						BEGIN
 							SELECT @Temps_S = DATEDIFF(second, @DateTime_H, GETDATE())				-- Récupération des secondes entre maintenant et la date + heure
 
-							SELECT @Cycle1 = tempsCycle 
+							SELECT @Cycle = tempsCycle 
 							FROM QAGATE_1_Cycle 
 							WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 																									-- Récupération temps de cycle
 
-							SELECT @Prevision = ROUND((CAST(@Temps_S AS FLOAT)/CAST(@Cycle1 AS FLOAT)),0)
+							SELECT @Prevision = ROUND((CAST(@Temps_S AS FLOAT)/CAST(@Cycle AS FLOAT)),0)
 																									-- Calcul prevision pièce (CAST ET ROUND pour permettre d'arrondir de manière scientifique)
+			
 						END
 				END
 

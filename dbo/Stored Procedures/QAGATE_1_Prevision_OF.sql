@@ -14,19 +14,18 @@ AS
 	SET NOCOUNT ON
 
 	DECLARE 
+			@Actuel INT,																			-- Ex : Actuel de pièce entre 06:00:00 08/10/19 et l'heure actuelle  04:23:15 09/10/19
+			@Cycle DECIMAL(4,1),																	-- Temps de cycle
+			@Date DATE,																				-- Variable date
 			@DateTime_OF_Last DATETIME,																-- Date avec 6h de moins que la date du jour
 			@DateTime_OF_First DATETIME,															-- Date avec 6h de moins que la date du jour + l'heure 06:00:00
-			@Temps_S INT,																			-- Ex : Temps (secondes) entre 06:00:00 08/10/19 et l'heure actuelle  04:23:15 09/10/19
-			@Prevision INT,																			-- Ex : Prévision de pièce entre 06:00:00 08/10/19 et l'heure actuelle  04:23:15 09/10/19
-			@Actuel INT,																			-- Ex : Actuel de pièce entre 06:00:00 08/10/19 et l'heure actuelle  04:23:15 09/10/19
 			@Delta INT,																				-- Ex : Delta de pièce entre 06:00:00 08/10/19 et l'heure actuelle  04:23:15 09/10/19
+			@Heure TIME(0),																			-- Variable Heure
 			@Last_Id_Piece INT,																		-- Numéro d'OF de la dernière pièce
 			@OF VARCHAR(10),																		-- Numéro OF
-			@Cycle DECIMAL(4,1),																	-- Temps de cycle reference 1
-			@Count_Piece INT,
-			@Temp_Count_Piece INT,
-			@Heure TIME(0),
-			@Date DATE
+			@Prevision INT,																			-- Ex : Prévision de pièce entre 06:00:00 08/10/19 et l'heure actuelle  04:23:15 09/10/19
+			@Temp_Count_Piece INT,																	-- Compteur de pièce temporaire
+			@Temps_S INT																			-- Ex : Temps (secondes) entre 06:00:00 08/10/19 et l'heure actuelle  04:23:15 09/10/19
 
 BEGIN
 
@@ -47,8 +46,8 @@ BEGIN
 			
 																									-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF
 
-			SET @Heure = CAST('14:00:00' AS TIME(0))
-			SET @Date = CAST(@DateTime_OF_First AS DATE)
+			SET @Heure = CAST('14:00:00' AS TIME(0))												-- Set variable @Heure à 14:00:00 pour dire que c'est à partir de là qu'il faut regarder maintenant 
+			SET @Date = CAST(@DateTime_OF_First AS DATE)											-- Set variable @Date à jour de la première pièce de l'OF pour dire que c'est à partir de là qu'il faut regarder maintenant 
 
 		END
 
@@ -58,8 +57,8 @@ BEGIN
 			SET @Temps_S = DATEDIFF(SECOND, @DateTime_OF_First, CONCAT(CAST(@DateTime_OF_First AS DATE), ' ', '22:00:00'))						
 																									-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF
 			
-			SET @Heure = CAST('22:00:00' AS TIME(0))
-			SET @Date = CAST(@DateTime_OF_First AS DATE)
+			SET @Heure = CAST('22:00:00' AS TIME(0))												-- Set variable @Heure à 22:00:00 pour dire que c'est à partir de là qu'il faut regarder maintenant 
+			SET @Date = CAST(@DateTime_OF_First AS DATE)											-- Set variable @Date à jour de la première pièce de l'OF pour dire que c'est à partir de là qu'il faut regarder maintenant 
 
 		END
 
@@ -69,8 +68,8 @@ BEGIN
 			SET @Temps_S = DATEDIFF(SECOND, @DateTime_OF_First, CONCAT(DATEADD(DAY, 1, CAST(@DateTime_OF_First AS DATE)), ' ', '06:00:00'))						
 																									-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF.
 
-			SET @Heure = CAST('06:00:00' AS TIME(0))
-			SET @Date = DATEADD(DAY, 1, CAST(@DateTime_OF_First AS DATE))
+			SET @Heure = CAST('06:00:00' AS TIME(0))												-- Set variable @Heure à 06:00:00 pour dire que c'est à partir de là qu'il faut regarder maintenant
+			SET @Date = DATEADD(DAY, 1, CAST(@DateTime_OF_First AS DATE))							-- Set variable @Date à jour + 1 de la première pièce de l'OF pour dire que c'est à partir de là qu'il faut regarder maintenant 
 		
 		END
 	
@@ -78,7 +77,7 @@ BEGIN
 		BEGIN
 			SELECT @Temp_Count_Piece = COUNT(idPiece) 
 			FROM QAGATE_1_MainTable 
-			WHERE currentOF = @OF AND timeStamp >= CONCAT(@Date, ' ', DATEADD(HOUR, 8, @Heure))
+			WHERE currentOF = @OF AND timeStamp >= CONCAT(@Date, ' ', DATEADD(HOUR, 8, @Heure))		-- Compte si il reste des pièces après date heure+8. Détermine si on est dans le dernier créneau horaire. 
 
 
 			IF(NOT(@Temp_Count_Piece = 0))
@@ -89,14 +88,14 @@ BEGIN
 							SELECT @Temp_Count_Piece = COUNT(idPiece) 
 							FROM QAGATE_1_MainTable 
 							WHERE currentOF = @OF AND (timeStamp >= CONCAT(CAST(@Date AS DATE), ' ', @Heure) AND timeStamp < CONCAT(CAST(@Date AS DATE), ' ', DATEADD(HOUR, 8, @Heure)))
-
-							IF(NOT(@Temp_Count_Piece = 0))
+																									-- Compte le nombre de pièce entre le créneau 06:00:00/14:00:00 ou 14:00:00/22:00:00
+							IF(NOT(@Temp_Count_Piece = 0))											-- Si il y a des pièces dans ce créneau
 								BEGIN
 
-									SET @Temps_S += DATEDIFF(SECOND, '00:00:00', '08:00:00' )
+									SET @Temps_S += DATEDIFF(SECOND, '00:00:00', '08:00:00' )		-- Alors on ajoute les 8h d'ouverture de la ligne (Car il y a normalement un opérateur présent)
 
 								END
-							SET @Heure = CAST(DATEADD(HOUR, 8, @Heure) AS TIME(0))
+							SET @Heure = CAST(DATEADD(HOUR, 8, @Heure) AS TIME(0))					-- On avance d'un créneau
 
 						END
 
@@ -107,14 +106,14 @@ BEGIN
 							FROM QAGATE_1_MainTable 
 							WHERE currentOF = @OF AND (timeStamp >= CONCAT(CAST(@Date AS DATE), ' ', @Heure) AND timeStamp < CONCAT(DATEADD(DAY, 1, CAST(@Date AS DATE)), ' ', DATEADD(HOUR, 8, @Heure)))
 
-							IF(NOT(@Temp_Count_Piece = 0))
+							IF(NOT(@Temp_Count_Piece = 0))											-- Si il y a des pièces dans ce créneau
 								BEGIN
 
-									SET @Temps_S += DATEDIFF(SECOND, '00:00:00', '08:00:00' )
+									SET @Temps_S += DATEDIFF(SECOND, '00:00:00', '08:00:00' )		-- Alors on ajoute les 8h d'ouverture de la ligne (Car il y a normalement un opérateur présent)
 
 								END
-							SET @Heure = CAST(DATEADD(HOUR, 8, @Heure) AS TIME(0))
-							SET @Date = DATEADD(DAY, 1, @Date)
+							SET @Heure = CAST(DATEADD(HOUR, 8, @Heure) AS TIME(0))					-- On avance d'un créneau
+							SET @Date = DATEADD(DAY, 1, @Date)										-- On avance d'un jour
 						END
 
 					CONTINUE
