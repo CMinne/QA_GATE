@@ -1,7 +1,0 @@
-﻿GO
-GRANT CONNECT TO [SQL4Automation];
-
-
-GO
-GRANT CONNECT TO [DOMZEXEL\chamin];
-

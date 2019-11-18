@@ -96,7 +96,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>C:\Users\chamin\source\repos\QA_GATE\bin\Debug\</OutputPath>
     <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DebugSymbols>true</DebugSymbols>
@@ -122,6 +122,9 @@
     <Folder Include="dbo\Views\" />
     <Folder Include="Security\" />
     <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="QA_GATE.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\QAGATE_1_EventData.sql">
@@ -184,10 +187,7 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="Security\SQL4Automation.sql" />
-    <Build Include="Security\SQL4Automation_1.sql" />
     <Build Include="Security\DOMZEXEL_chamin.sql" />
-    <Build Include="Security\DOMZEXEL_chamin_1.sql" />
     <Build Include="Security\RoleMemberships.sql" />
     <Build Include="dbo\Stored Procedures\QAGATE_1_Rebut_Team.sql">
       <AnsiNulls>On</AnsiNulls>
@@ -269,9 +269,5 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="Security\Permissions.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="QA_GATE.publish.xml" />
   </ItemGroup>
 </Project>
