@@ -28,12 +28,12 @@ AS
 			@Reference VARCHAR(15)																	-- Reference PG du dernier OF
 BEGIN
 
-	SELECT @Last_Id_Piece = MAX(Id_Piece) 
+	SELECT @Last_Id_Piece = MAX(idPiece) 
 	FROM QAGATE_1_MainTable																			-- Récupération de l'id e la dernière pièce
 
-	SELECT @OF = Current_OF 
+	SELECT @OF = currentOF 
 	FROM QAGATE_1_MainTable 
-	WHERE Id_Piece = @Last_Id_Piece																	-- Récupération du code du dernier OF
+	WHERE idPiece = @Last_Id_Piece																	-- Récupération du code du dernier OF
 
 
 	CREATE TABLE #temp_table 																		-- Création d'une table temporaire 
@@ -44,31 +44,31 @@ BEGIN
 	)
 
 	INSERT INTO #temp_table (Name_NOK		  , Nbr_NOK																										   ) 
-	VALUES					('Double_Taillage', (SELECT COUNT(Double_Taillage) FROM QAGATE_1_KeyenceData WHERE (Double_Taillage = 1 AND Current_OF = @OF)))
+	VALUES					('Double_Taillage', (SELECT COUNT(doubleTaillage) FROM QAGATE_1_KeyenceData WHERE (doubleTaillage = 1 AND currentOF = @OF)))
 																									-- Insertion dans #temp_table du nombre de NOK pour le double taillage																							-- Insertion dans #temp_table du nombre de NOK pour le double taillage
 
 	INSERT INTO #temp_table (Name_NOK		 , Nbr_NOK																										) 
-	VALUES					('Coup_Denture_1', (SELECT COUNT(Coup_Denture_1) FROM QAGATE_1_KeyenceData WHERE (Coup_Denture_1 = 1 AND Current_OF = @OF)))
+	VALUES					('Coup_Denture_1', (SELECT COUNT(coupDenture1) FROM QAGATE_1_KeyenceData WHERE (coupDenture1 = 1 AND currentOF = @OF)))
 																									-- Insertion dans #temp_table du nombre de NOK pour le coup denture 1
 
 	INSERT INTO #temp_table (Name_NOK		 , Nbr_NOK																										) 
-	VALUES					('Coup_Denture_2', (SELECT COUNT(Coup_Denture_2) FROM QAGATE_1_KeyenceData WHERE (Coup_Denture_2 = 1 AND Current_OF = @OF)))
+	VALUES					('Coup_Denture_2', (SELECT COUNT(coupDenture2) FROM QAGATE_1_KeyenceData WHERE (coupDenture2 = 1 AND currentOF = @OF)))
 																									-- Insertion dans #temp_table du nombre de NOK pour le coup denture 2
 
 	INSERT INTO #temp_table (Name_NOK	  , Nbr_NOK																								   ) 
-	VALUES					('Chanfrein_1', (SELECT COUNT(Chanfrein_1) FROM QAGATE_1_KeyenceData WHERE (Chanfrein_1 = 1 AND Current_OF = @OF)))
+	VALUES					('Chanfrein_1', (SELECT COUNT(chanfrein1) FROM QAGATE_1_KeyenceData WHERE (chanfrein1 = 1 AND currentOF = @OF)))
 																									-- Insertion dans #temp_table du nombre de NOK pour le chanfrein 1
 
 	INSERT INTO #temp_table (Name_NOK	  , Nbr_NOK																								   ) 
-	VALUES					('Chanfrein_2', (SELECT COUNT(Chanfrein_2) FROM QAGATE_1_KeyenceData WHERE (Chanfrein_2 = 1 AND Current_OF = @OF)))
+	VALUES					('Chanfrein_2', (SELECT COUNT(chanfrein2) FROM QAGATE_1_KeyenceData WHERE (chanfrein2 = 1 AND currentOF = @OF)))
 																									-- Insertion dans #temp_table du nombre de NOK pour le chanfrein 2
 
 	INSERT INTO #temp_table (Name_NOK	  , Nbr_NOK																								   ) 
-	VALUES					('Chanfrein_3', (SELECT COUNT(Chanfrein_3) FROM QAGATE_1_KeyenceData WHERE (Chanfrein_3 = 1 AND Current_OF = @OF)))
+	VALUES					('Chanfrein_3', (SELECT COUNT(chanfrein3) FROM QAGATE_1_KeyenceData WHERE (chanfrein3 = 1 AND currentOF = @OF)))
 																									-- Insertion dans #temp_table du nombre de NOK pour le chanfrein 3
 
 	INSERT INTO #temp_table (Name_NOK	  , Nbr_NOK																								   ) 
-	VALUES					('Chanfrein_4', (SELECT COUNT(Chanfrein_4) FROM QAGATE_1_KeyenceData WHERE (Chanfrein_4 = 1 AND Current_OF = @OF)))
+	VALUES					('Chanfrein_4', (SELECT COUNT(chanfrein4) FROM QAGATE_1_KeyenceData WHERE (chanfrein4 = 1 AND currentOF = @OF)))
 																									-- Insertion dans #temp_table du nombre de NOK pour le chanfrein 4
 
 	SET @First = (SELECT TOP(1) Nbr_NOK FROM #temp_table ORDER BY Nbr_NOK DESC, Name_NOK ASC)		-- Séléction de la valeur du top 1

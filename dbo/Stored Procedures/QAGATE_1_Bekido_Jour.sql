@@ -34,24 +34,24 @@ BEGIN
 
 	SELECT @DateTime_H = CAST(@Date_H AS DATETIME) + CAST('06:00:00' AS DATETIME)					-- Ajout de l'heure 06:00:00 à cette date
 
-	SET @First_Id_Piece = (SELECT TOP(1) Id_Piece FROM QAGATE_1_MainTable WHERE Heure_Reseau >= @DateTime_H ORDER BY Heure_Reseau ASC)
+	SET @First_Id_Piece = (SELECT TOP(1) idPiece FROM QAGATE_1_MainTable WHERE timeStamp >= @DateTime_H ORDER BY timeStamp ASC)
 																									-- Récupération de l'id du premier OF après 06:00:00
-	SELECT @Last_Id_Piece = MAX(Id_Piece) 
+	SELECT @Last_Id_Piece = MAX(idPiece) 
 	FROM QAGATE_1_MainTable																			-- Récupération de l'id de la dernière pièce
 
-	SELECT @OF = Current_OF 
+	SELECT @OF = currentOF 
 	FROM QAGATE_1_MainTable 
-	WHERE Id_Piece = @Last_Id_Piece																	-- Numéro d'OF
+	WHERE idPiece = @Last_Id_Piece																	-- Numéro d'OF
 
-	IF((SELECT Current_OF FROM QAGATE_1_MainTable WHERE Id_Piece = @First_Id_Piece) != (SELECT Current_OF FROM QAGATE_1_MainTable WHERE Id_Piece = @Last_Id_Piece))
+	IF((SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 		BEGIN																						-- Vérifie si la référence de la pièce juste après 06:00:00 et la dernière sont identiques
 
 
-			SELECT @Bekido_S = DATEDIFF(SECOND, (SELECT TOP(1) Heure_Reseau FROM QAGATE_1_MainTable WHERE Current_OF = @OF ORDER BY Heure_Reseau ASC), GETDATE())
+			SELECT @Bekido_S = DATEDIFF(SECOND, (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp ASC), GETDATE())
 																									-- Calcul le temps entre l'heure de la premièrre pièce de la deuxième référence et maintenant
-			SELECT @Cycle = Temps_Cycle 
+			SELECT @Cycle = tempsCycle 
 			FROM QAGATE_1_Cycle
-			WHERE Id_Client = (SELECT Id_Client FROM QAGATE_1_Reference WHERE Names = (SELECT Reference FROM QAGATE_1_MainTable WHERE Id_Piece = @Last_Id_Piece))							
+			WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))							
 																									-- Récupération temps de Cycle
 			SELECT @Prevision = ROUND((CAST(@Bekido_S AS FLOAT)/CAST(@Cycle AS FLOAT)), 0)
 																									-- Calcul prevision pièce (CAST ET ROUND pour permettre d'arrondir de manière scientifique)
@@ -60,18 +60,18 @@ BEGIN
 		BEGIN
 			SELECT @Bekido_S = DATEDIFF(SECOND, @DateTime_H, GETDATE())								-- Récupération des secondes entre maintenant et la date + heure
 
-			SELECT @Cycle = Temps_Cycle 
+			SELECT @Cycle = tempsCycle 
 			FROM QAGATE_1_Cycle
-			WHERE Id_Client = (SELECT Id_Client FROM QAGATE_1_Reference WHERE Names = (SELECT Reference FROM QAGATE_1_MainTable WHERE Id_Piece = @Last_Id_Piece))
+			WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 																									-- Récupération temps de cycle
 			SELECT @Prevision = ROUND((CAST(@Bekido_S AS FLOAT)/CAST(@Cycle AS FLOAT)),0)			-- Calcul prevision pièce (CAST ET ROUND pour permettre d'arrondir de manière scientifique)
 			
 		END
 	
 
-	SELECT @Piece_Actu = COUNT(Id_Piece)															-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
+	SELECT @Piece_Actu = COUNT(idPiece)																-- Récupération du nombres de pièces depuis date + heure (avec sécurité)
 	FROM QAGATE_1_MainTable		 
-	WHERE (((OK = 0 AND (Keyence_Etat=0 AND Kogame_Etat=0))    OR    (OK = 1 AND (Keyence_Etat = 1 OR Kogame_Etat = 1)))   AND   Heure_Reseau > @DateTime_H  AND Current_OF = @OF)																					
+	WHERE (((OK = 0 AND (keyenceEtat=0 AND kogameEtat=0))    OR    (OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1)))   AND   timeStamp > @DateTime_H  AND currentOF = @OF)																					
 
 	IF(@Prevision  > 0)																				-- Condition pour éviter de diviser par 0 (Peu de chance mais sécurité). Sinon @Bekido retourne NULL
 		SELECT @Bekido = ROUND((CAST(@Piece_Actu AS FLOAT)*100)/CAST(@Prevision AS FLOAT), 0)		-- Calcul Bekido (CAST ET ROUND pour permettre d'arrondir de manière scientifique)

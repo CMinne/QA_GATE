@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[QAGATE_1_Cycle] (
-    [Id_Cycle]    INT            IDENTITY (1, 1) NOT NULL,
-    [Temps_Cycle] DECIMAL (3, 1) NOT NULL,
-    [Id_Client]   INT            NOT NULL,
-    PRIMARY KEY CLUSTERED ([Id_Cycle] ASC),
-    CONSTRAINT [FK_Cycle_Client] FOREIGN KEY ([Id_Client]) REFERENCES [dbo].[QAGATE_1_Client] ([Id_Client])
+    [idCycle]    INT            IDENTITY (1, 1) NOT NULL,
+    [tempsCycle] DECIMAL (3, 1) NOT NULL,
+    [idClient]   INT            NOT NULL,
+    PRIMARY KEY CLUSTERED ([idCycle] ASC),
+    CONSTRAINT [FK_Cycle_Client] FOREIGN KEY ([idClient]) REFERENCES [dbo].[QAGATE_1_Client] ([idClient])
 );
 

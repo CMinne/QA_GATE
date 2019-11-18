@@ -30,20 +30,20 @@ BEGIN
 
 	SELECT @DateTime_H = CAST(@Date_H AS DATETIME) + CAST('06:00:00' AS DATETIME)					-- Ajout de l'heure 06:00:00 à cette date
 
-	SELECT @Last_Id_Piece = MAX(Id_Piece) 
+	SELECT @Last_Id_Piece = MAX(idPiece) 
 	FROM QAGATE_1_MainTable																			-- Récupération de l'id de la dernière pièce
 
-	SELECT @OF = Current_OF 
+	SELECT @OF = currentOF 
 	FROM QAGATE_1_MainTable 
-	WHERE Id_Piece = @Last_Id_Piece																	-- Numéro d'OF
+	WHERE idPiece = @Last_Id_Piece																	-- Numéro d'OF
 
-	SELECT @Val_OK = COUNT(Id_Piece)																-- Récupération du nombres de pièces OK depuis date + heure (avec sécurité) 
+	SELECT @Val_OK = COUNT(idPiece)																-- Récupération du nombres de pièces OK depuis date + heure (avec sécurité) 
 	FROM QAGATE_1_MainTable 
-	WHERE ((OK = 0 AND (Keyence_Etat = 0 AND Kogame_Etat = 0)) AND Heure_Reseau > @DateTime_H AND Current_OF = @OF)
+	WHERE ((OK = 0 AND (keyenceEtat = 0 AND kogameEtat = 0)) AND timeStamp > @DateTime_H AND currentOF = @OF)
 
-	SELECT @Val_NOK = COUNT(Id_Piece)																-- Récupération du nombres de pièces NOK depuis date + heure (avec sécurité)  
+	SELECT @Val_NOK = COUNT(idPiece)																-- Récupération du nombres de pièces NOK depuis date + heure (avec sécurité)  
 	FROM QAGATE_1_MainTable 
-	WHERE ((OK = 1 AND (Keyence_Etat = 1 OR Kogame_Etat = 1)) AND Heure_Reseau > @DateTime_H AND Current_OF = @OF)
+	WHERE ((OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1)) AND timeStamp > @DateTime_H AND currentOF = @OF)
 
 	IF(@Val_OK > 0 OR @Val_NOK > 0)																	-- Condition pour éviter de diviser par 0
 		SELECT @Chokko = ROUND((@Val_OK*100)/(@Val_OK + @Val_NOK), 0)								-- Calcul Chokko équipe

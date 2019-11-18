@@ -22,12 +22,15 @@ BEGIN
 
 	SELECT @DateTime_H = CAST(@Date_H AS DATETIME) + CAST('06:00:00' AS DATETIME)					-- Ajout de l'heure 06:00:00 à cette date
 
-	SELECT @Last_Id_Piece = MAX(Id_Piece) FROM QAGATE_1_MainTable									-- Récupération de l'id e la dernière pièce
+	SELECT @Last_Id_Piece = MAX(idPiece) 
+	FROM QAGATE_1_MainTable																			-- Récupération de l'id e la dernière pièce
 
-	SELECT @OF = Current_OF FROM QAGATE_1_MainTable WHERE Id_Piece = @Last_Id_Piece					-- Récupération du code du dernier OF
+	SELECT @OF = currentOF 
+	FROM QAGATE_1_MainTable 
+	WHERE idPiece = @Last_Id_Piece																	-- Récupération du code du dernier OF
 
-	SELECT Code, CONVERT(TIME(0), Heure_Event) AS Heure_Event										-- Récupération du nombres des arrêts + heure d'un OF
+	SELECT code, CONVERT(TIME(0), timeStamp) AS 'timeStamp'											-- Récupération du nombres des arrêts + heure d'un OF
 	FROM QAGATE_1_EventData 
-	WHERE (Current_OF = @OF)				 
+	WHERE (currentOF = @OF)				 
 
 END

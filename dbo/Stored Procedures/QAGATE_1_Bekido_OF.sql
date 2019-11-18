@@ -32,14 +32,14 @@ AS
 
 BEGIN
 
-	SELECT @Last_Id_Piece = MAX(Id_Piece) 
+	SELECT @Last_Id_Piece = MAX(idPiece) 
 	FROM QAGATE_1_MainTable																			-- Récupération de l'id de la dernière pièce
 
-	SELECT @OF = Current_OF 
+	SELECT @OF = currentOF 
 	FROM QAGATE_1_MainTable 
-	WHERE Id_Piece = @Last_Id_Piece																	-- Récupération du code du dernier OF
+	WHERE idPiece = @Last_Id_Piece																	-- Récupération du code du dernier OF
 
-	SET @DateTime_OF_First = (SELECT TOP(1) Heure_Reseau FROM QAGATE_1_MainTable WHERE Current_OF = @OF ORDER BY Heure_Reseau ASC)
+	SET @DateTime_OF_First = (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp ASC)
 																									-- Récupération de la date de la première pièce de l'OF
 
 	IF(CAST(@DateTime_OF_First AS TIME(0)) >= '06:00:00' AND CAST(@DateTime_OF_First AS TIME(0)) < '14:00:00')
@@ -78,9 +78,9 @@ BEGIN
 	
 	WHILE(1=1)
 		BEGIN
-			SELECT @Temp_Count_Piece = COUNT(Id_Piece) 
+			SELECT @Temp_Count_Piece = COUNT(idPiece) 
 			FROM QAGATE_1_MainTable 
-			WHERE Current_OF = @OF AND Heure_Reseau >= CONCAT(@Date, ' ', DATEADD(HOUR, 8, @Heure))
+			WHERE currentOF = @OF AND timeStamp >= CONCAT(@Date, ' ', DATEADD(HOUR, 8, @Heure))
 
 
 			IF(NOT(@Temp_Count_Piece = 0))
@@ -88,9 +88,9 @@ BEGIN
 					IF(@Heure = '06:00:00' OR @Heure = '14:00:00')
 						BEGIN
 
-							SELECT @Temp_Count_Piece = COUNT(Id_Piece) 
+							SELECT @Temp_Count_Piece = COUNT(idPiece) 
 							FROM QAGATE_1_MainTable 
-							WHERE Current_OF = @OF AND (Heure_Reseau >= CONCAT(CAST(@Date AS DATE), ' ', @Heure) AND Heure_Reseau < CONCAT(CAST(@Date AS DATE), ' ', DATEADD(HOUR, 8, @Heure)))
+							WHERE currentOF = @OF AND (timeStamp >= CONCAT(CAST(@Date AS DATE), ' ', @Heure) AND timeStamp < CONCAT(CAST(@Date AS DATE), ' ', DATEADD(HOUR, 8, @Heure)))
 
 							IF(NOT(@Temp_Count_Piece = 0))
 								BEGIN
@@ -105,9 +105,9 @@ BEGIN
 					ELSE
 						BEGIN
 
-							SELECT @Temp_Count_Piece = COUNT(Id_Piece) 
+							SELECT @Temp_Count_Piece = COUNT(idPiece) 
 							FROM QAGATE_1_MainTable 
-							WHERE Current_OF = @OF AND (Heure_Reseau >= CONCAT(CAST(@Date AS DATE), ' ', @Heure) AND Heure_Reseau < CONCAT(DATEADD(DAY, 1, CAST(@Date AS DATE)), ' ', DATEADD(HOUR, 8, @Heure)))
+							WHERE currentOF = @OF AND (timeStamp >= CONCAT(CAST(@Date AS DATE), ' ', @Heure) AND timeStamp < CONCAT(DATEADD(DAY, 1, CAST(@Date AS DATE)), ' ', DATEADD(HOUR, 8, @Heure)))
 
 							IF(NOT(@Temp_Count_Piece = 0))
 								BEGIN
@@ -126,20 +126,20 @@ BEGIN
 				BREAK
 			
 		END
-	SET @DateTime_OF_Last = (SELECT TOP(1) Heure_Reseau FROM QAGATE_1_MainTable WHERE Current_OF = @OF ORDER BY Heure_Reseau DESC)
+	SET @DateTime_OF_Last = (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp DESC)
 																									-- Récupération de la date de la dernière pièce de l'OF
 
-	SELECT @Piece_Actu = COUNT(Id_Piece)															-- Récupération du nombres de pièces contrôlées de l'OF
+	SELECT @Piece_Actu = COUNT(idPiece)																-- Récupération du nombres de pièces contrôlées de l'OF
 	FROM QAGATE_1_MainTable 
-	WHERE (((OK = 0 AND (Keyence_Etat=0 AND Kogame_Etat=0))    OR    (OK = 1 AND (Keyence_Etat = 1 OR Kogame_Etat = 1)))   AND   Current_OF = @OF)
+	WHERE (((OK = 0 AND (keyenceEtat=0 AND kogameEtat=0))    OR    (OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1)))   AND   currentOF = @OF)
 	
 
 	SET @Bekido_S += DATEDIFF(SECOND, CONCAT(@Date, ' ', @Heure), @DateTime_OF_Last)				-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF
 
 																									
-	SELECT @Cycle = Temps_Cycle 
+	SELECT @Cycle = tempsCycle 
 	FROM QAGATE_1_Cycle 
-	WHERE Id_Client = (SELECT Id_Client FROM QAGATE_1_Reference WHERE Names = (SELECT Reference FROM QAGATE_1_MainTable WHERE Id_Piece = @Last_Id_Piece))
+	WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 																									-- Récupération temps de cycle
 
 	SELECT @Prevision = ROUND(CAST(@Bekido_S AS FLOAT)/CAST(@Cycle AS FLOAT), 0)					-- Calcul prevision pièce

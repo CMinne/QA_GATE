@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="ddb3b172-8a14-4b71-b7d8-785bb4071b77" ChangeDateTime="11/18/2019 08:52:50">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Email].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Email]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id_Email" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8f75ac07-5fa7-49de-918c-7bed0a1c3702" ChangeDateTime="11/18/2019 09:00:05">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventData].[Id_Event]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idEvent" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d3aedf29-0bc0-42bd-9508-a58e3b162721" ChangeDateTime="11/18/2019 09:00:08">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventData].[Reference]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="reference" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="720a6063-3bc1-4c32-a72e-da873a33cc0a" ChangeDateTime="11/18/2019 09:00:12">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventData].[Current_OF]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="currentOF" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fdcd001c-3652-4120-8ae4-7045b588da15" ChangeDateTime="11/18/2019 09:00:14">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventData].[Code]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="code" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="bb6bf506-a910-432d-9e93-6256fd8b1e48" ChangeDateTime="11/18/2019 09:00:17">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventData].[Etat]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="etat" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="476a9db0-72ee-4f7c-8998-9c3fd1a50aed" ChangeDateTime="11/18/2019 09:00:50">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventData].[Heure_Event]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="timeStamp" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dccf4b6c-d023-4e71-b790-f82e4eb7fe6b" ChangeDateTime="11/18/2019 09:01:20">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle].[Id_Archive]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idArchive" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5c428bbe-c79e-49d2-9501-c4fc78b36683" ChangeDateTime="11/18/2019 09:01:24">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle].[Cycle]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="cycle" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f4769609-bdd6-4a37-a3c9-3b1e62ce5f52" ChangeDateTime="11/18/2019 09:01:28">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle].[Date]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="date" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="031a62ee-f813-40f9-a377-d4ba868a48c6" ChangeDateTime="11/18/2019 09:01:41">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle].[date]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="timeStamp" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fc432021-e2ba-44a0-ac28-a610ff5e7bf0" ChangeDateTime="11/18/2019 09:01:48">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle].[Id_Client]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idClient" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="30301619-2b89-428e-8c59-da21a850e94b" ChangeDateTime="11/18/2019 09:02:02">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Client].[Id_Client]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Client]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idClient" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f25cdb32-4c2c-4e2a-bc23-11d9116caed7" ChangeDateTime="11/18/2019 09:02:06">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Client].[Names]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Client]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="names" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8cd3ef41-7d1b-496d-9e2f-f12d24830f9a" ChangeDateTime="11/18/2019 09:02:10">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Client].[Commentaire]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Client]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="commentaire" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fc6ec014-41e0-4e63-8109-5217d316327e" ChangeDateTime="11/18/2019 09:02:28">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Cycle].[Id_Cycle]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Cycle]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idCycle" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="688a90ad-8558-4f04-ab5f-95e7f8b23866" ChangeDateTime="11/18/2019 09:02:33">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Cycle].[Temps_Cycle]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Cycle]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="tempsCycle" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="06d5d7b9-8441-42ce-8d3d-ed63f533223e" ChangeDateTime="11/18/2019 09:02:37">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Cycle].[Id_Client]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Cycle]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idClient" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="00421493-9446-4650-b7ff-4e600ae55228" ChangeDateTime="11/18/2019 09:02:51">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Email].[Id_Email]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Email]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idEmail" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ea45d34e-2e06-4317-81d1-942d332b3a06" ChangeDateTime="11/18/2019 09:02:54">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Email].[Email]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Email]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="email" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="306ed919-6f78-42b4-b5c6-c60776354ad4" ChangeDateTime="11/18/2019 09:03:04">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EtatSysteme].[Id_Etat]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EtatSysteme]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idEtat" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d8dc4516-464d-4dd1-9671-964ceab63336" ChangeDateTime="11/18/2019 09:03:07">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EtatSysteme].[Etat]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EtatSysteme]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="etat" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6b464ba5-338a-40a2-bafb-727e4a8d8775" ChangeDateTime="11/18/2019 09:03:11">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EtatSysteme].[Name_Etat]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EtatSysteme]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="nameEtat" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="794d6656-f207-43d8-80a4-6a6f3e129a2f" ChangeDateTime="11/18/2019 09:03:27">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventClass].[Id_Event_Class]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventClass]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idClass" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e8319f9b-2b36-4159-9b93-31c80d594618" ChangeDateTime="11/18/2019 09:03:30">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventClass].[Class]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventClass]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="class" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2f00559b-9f05-4ea3-9734-45eb2f35e258" ChangeDateTime="11/18/2019 09:03:55">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventClass].[Nom]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventClass]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="names" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ef329449-00b0-4702-b6eb-b7c70ec167fe" ChangeDateTime="11/18/2019 09:04:05">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventClass].[names]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventClass]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="nameClass" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8909913c-c166-461e-98ae-117c4d9c0df5" ChangeDateTime="11/18/2019 09:04:15">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Client].[names]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Client]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="nameClient" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a15f59a6-5e0c-47a5-a946-149fb0214b85" ChangeDateTime="11/18/2019 09:04:35">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventInfo].[Id_Event_Info]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idInfo" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dc1abfe6-c5d6-4378-aa65-eaed3b835f28" ChangeDateTime="11/18/2019 09:04:40">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventInfo].[Code]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="code" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="56f08fd0-d4ae-4d04-9f16-88afd04d5b16" ChangeDateTime="11/18/2019 09:04:43">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventInfo].[Class]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="class" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7bbde59b-f868-44b7-aab9-955bd92c2cc2" ChangeDateTime="11/18/2019 09:04:47">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventInfo].[MnemoniqueAlarme]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="mnemoniqueAlarme" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="10e5d540-2f69-41b0-a959-2ae770d6d3a2" ChangeDateTime="11/18/2019 09:04:56">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventInfo].[Description]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="description" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="431e65ea-7061-4e45-aa59-62b9bb73e2a5" ChangeDateTime="11/18/2019 09:05:05">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_EventInfo].[Cause]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_EventInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="cause" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="342c8d58-ff3e-4406-8439-c2c3df06870f" ChangeDateTime="11/18/2019 09:05:17">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_KeyenceData].[Id_Keyence]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_KeyenceData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idKeyence" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7aaae063-bbe4-4b5f-b01d-583a43e24868" ChangeDateTime="11/18/2019 09:05:46">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_KeyenceData].[Current_OF]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_KeyenceData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="reference" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b44d91e8-8a0f-456f-b8a4-ac2f067b9eda" ChangeDateTime="11/18/2019 09:05:56">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_KeyenceData].[Double_Taillage]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_KeyenceData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="doubleTaillage" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="da973fa3-dc1e-48d7-9e40-b2d284c485ee" ChangeDateTime="11/18/2019 09:06:02">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_KeyenceData].[Coup_Denture_1]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_KeyenceData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="coupDenture1" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="63e97000-1764-40e5-bd9a-f8b96f181091" ChangeDateTime="11/18/2019 09:06:08">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_KeyenceData].[Coup_Denture_2]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_KeyenceData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="coupDenture2" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8baeea08-6f0e-4433-88bd-246563a2efbb" ChangeDateTime="11/18/2019 09:06:13">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_KeyenceData].[Chanfrein_1]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_KeyenceData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="chanfrein1" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="045a7168-c1e1-450e-b51f-baa392accbd5" ChangeDateTime="11/18/2019 09:06:18">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_KeyenceData].[Chanfrein_2]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_KeyenceData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="chanfrein2" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6455f30e-f3eb-4cbf-ad3a-5cc1b63809c1" ChangeDateTime="11/18/2019 09:06:22">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_KeyenceData].[Chanfrein_3]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_KeyenceData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="chanfrein3" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7e24c536-3ae3-440c-b3aa-986a04bc419b" ChangeDateTime="11/18/2019 09:06:28">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_KeyenceData].[Chanfrein_4]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_KeyenceData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="chanfrein4" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="98730efa-ed3f-40b5-85a8-93571400f1f1" ChangeDateTime="11/18/2019 09:06:36">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_KeyenceData].[Heure_Reseau]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_KeyenceData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="timeStamp" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b3a0d43a-5b1c-465c-ad0f-3fbf2f26cee3" ChangeDateTime="11/18/2019 09:06:47">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_MainTable].[Id_Piece]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_MainTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idPiece" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5cdffaaa-7b5a-46b9-9d86-8a593d09dbb2" ChangeDateTime="11/18/2019 09:06:50">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_MainTable].[Reference]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_MainTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="reference" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e87e94c4-e78d-47c9-b72f-c3770c5c07b4" ChangeDateTime="11/18/2019 09:06:55">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_MainTable].[Current_OF]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_MainTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="currentOF" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2f9c9af6-2668-4a23-8368-b5e558b7dc7b" ChangeDateTime="11/18/2019 09:07:02">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_MainTable].[Keyence_Etat]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_MainTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="keyenceEtat" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7e10c2a7-37cf-4373-9dfb-17320b112f00" ChangeDateTime="11/18/2019 09:07:07">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_MainTable].[Kogame_Etat]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_MainTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="kogameEtat" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="083c47da-5adc-4495-82cf-7238dc0c26d3" ChangeDateTime="11/18/2019 09:07:15">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_MainTable].[Heure_Reseau]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_MainTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="timeStamp" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a3d4d735-f0d8-4879-a680-1777b1a0c153" ChangeDateTime="11/18/2019 09:07:27">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_NombrePiece].[Id_Nombre_Piece]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_NombrePiece]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idNombre" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2997a264-6f47-42ab-9e03-e57d716587ed" ChangeDateTime="11/18/2019 09:07:32">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_NombrePiece].[Quantite]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_NombrePiece]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="nombre" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ce094acc-9444-4c9a-9524-73db7ec60118" ChangeDateTime="11/18/2019 09:07:37">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_NombrePiece].[Id_Client]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_NombrePiece]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idClient" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="60e68a61-4202-4d23-916d-1fc8ddd33dcd" ChangeDateTime="11/18/2019 09:07:53">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_PasswordData].[Id_Password]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_PasswordData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idPassword" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8251fbd2-3c75-4773-b3f2-2b883a8144e9" ChangeDateTime="11/18/2019 09:07:56">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_PasswordData].[N_Password]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_PasswordData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="nPassword" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a80a7640-7af8-44c1-b286-dcda0acc3de5" ChangeDateTime="11/18/2019 09:08:05">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Reference].[Id_Reference]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Reference]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idReference" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e7390b7d-0039-4f7b-9498-a3d50c4029a6" ChangeDateTime="11/18/2019 09:08:12">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Reference].[Names]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Reference]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="nameReference" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="02098dea-d71e-47b2-8d61-6e4b214009c2" ChangeDateTime="11/18/2019 09:08:15">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_Reference].[Id_Client]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_Reference]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idClient" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="43059d25-ca56-4722-b347-668a22e0f668" ChangeDateTime="11/18/2019 09:12:28">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle].[timeStamp]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="imeStamp" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6984f8d9-ef9d-41d6-8594-f1b5b3c544c9" ChangeDateTime="11/18/2019 09:13:26">
+    <Property Name="ElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle].[imeStamp]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QAGATE_1_ArchiveTempsCycle]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="timeStamp" />
+  </Operation>
+</Operations>

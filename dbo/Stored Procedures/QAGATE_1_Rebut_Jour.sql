@@ -27,24 +27,24 @@ BEGIN
 
 	SELECT @DateTime_H = CAST(@Date_H AS DATETIME) + CAST('06:00:00' AS DATETIME)					-- Ajout de l'heure 06:00:00 à cette date
 
-	SELECT @Last_Id_Piece = MAX(Id_Piece) 
+	SELECT @Last_Id_Piece = MAX(idPiece) 
 	FROM QAGATE_1_MainTable																			-- Récupération de l'id de la dernière pièce
 
-	SELECT @OF = Current_OF 
+	SELECT @OF = currentOF 
 	FROM QAGATE_1_MainTable 
-	WHERE Id_Piece = @Last_Id_Piece																	-- Numéro d'OF
+	WHERE idPiece = @Last_Id_Piece																	-- Numéro d'OF
 
-	SELECT @Rebut_Tot = COUNT(Id_Piece)																-- Récupération du nombres de rebut depuis date + heure (avec sécurité)  
+	SELECT @Rebut_Tot = COUNT(idPiece)																-- Récupération du nombres de rebut depuis date + heure (avec sécurité)  
 	FROM QAGATE_1_MainTable
-	WHERE ((OK = 1 AND (Keyence_Etat = 1 OR Kogame_Etat = 1)) AND Heure_Reseau > @DateTime_H AND Current_OF = @OF)
+	WHERE ((OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1)) AND timeStamp > @DateTime_H AND currentOF = @OF)
 
-	SELECT @Rebut_Key = COUNT(Id_Piece)																-- Récupération du nombres de rebut keyence depuis date + heure (avec sécurité)  
+	SELECT @Rebut_Key = COUNT(idPiece)																-- Récupération du nombres de rebut keyence depuis date + heure (avec sécurité)  
 	FROM QAGATE_1_MainTable 
-	WHERE ((OK = 1 AND (Keyence_Etat = 1 AND Kogame_Etat = 0)) AND Heure_Reseau > @DateTime_H AND Current_OF = @OF)
+	WHERE ((OK = 1 AND (keyenceEtat = 1 AND kogameEtat = 0)) AND timeStamp > @DateTime_H AND currentOF = @OF)
 
-	SELECT @Rebut_Kog = COUNT(Id_Piece)																-- Récupération du nombres de rebut kogame depuis date + heure (avec sécurité)  
+	SELECT @Rebut_Kog = COUNT(idPiece)																-- Récupération du nombres de rebut kogame depuis date + heure (avec sécurité)  
 	FROM QAGATE_1_MainTable 
-	WHERE ((OK = 1 AND (Keyence_Etat = 0 AND Kogame_Etat = 1)) AND Heure_Reseau > @DateTime_H AND Current_OF = @OF)
+	WHERE ((OK = 1 AND (keyenceEtat = 0 AND kogameEtat = 1)) AND timeStamp > @DateTime_H AND currentOF = @OF)
 	
 	IF(@Rebut_Key = 0 AND @Rebut_Kog = 0)															-- Condition pour éviter une division par 0
 		BEGIN

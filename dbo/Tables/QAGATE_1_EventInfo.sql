@@ -1,12 +1,12 @@
 ﻿CREATE TABLE [dbo].[QAGATE_1_EventInfo] (
-    [Id_Event_Info]    INT           IDENTITY (1, 1) NOT NULL,
-    [Code]             SMALLINT      NOT NULL,
-    [Class]            SMALLINT      NOT NULL,
-    [MnemoniqueAlarme] VARCHAR (MAX) NULL,
-    [Description]      VARCHAR (MAX) NULL,
-    [Cause]            VARCHAR (MAX) NULL,
-    PRIMARY KEY CLUSTERED ([Id_Event_Info] ASC),
-    CONSTRAINT [FK_Event_Info_Event_Class] FOREIGN KEY ([Class]) REFERENCES [dbo].[QAGATE_1_EventClass] ([Class]),
-    UNIQUE NONCLUSTERED ([Code] ASC)
+    [idInfo]    INT           IDENTITY (1, 1) NOT NULL,
+    [code]             SMALLINT      NOT NULL,
+    [class]            SMALLINT      NOT NULL,
+    [mnemoniqueAlarme] VARCHAR (MAX) NULL,
+    [description]      VARCHAR (MAX) NULL,
+    [cause]            VARCHAR (MAX) NULL,
+    PRIMARY KEY CLUSTERED ([idInfo] ASC),
+    CONSTRAINT [FK_Event_Info_Event_Class] FOREIGN KEY ([class]) REFERENCES [dbo].[QAGATE_1_EventClass] ([class]),
+    UNIQUE NONCLUSTERED ([code] ASC)
 );
 

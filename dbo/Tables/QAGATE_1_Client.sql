@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[QAGATE_1_Client] (
-    [Id_Client]   INT          IDENTITY (1, 1) NOT NULL,
-    [Names]       VARCHAR (10) NOT NULL,
-    [Commentaire] TEXT         NULL,
-    PRIMARY KEY CLUSTERED ([Id_Client] ASC)
+    [idClient]   INT          IDENTITY (1, 1) NOT NULL,
+    [nameClient]       VARCHAR (10) NOT NULL,
+    [commentaire] TEXT         NULL,
+    PRIMARY KEY CLUSTERED ([idClient] ASC)
 );
 

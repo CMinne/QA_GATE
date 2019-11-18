@@ -21,24 +21,24 @@ AS
 			@Valeur_Date_OF VARCHAR(10)																-- VARCHAR pour des questions de mise en page (JJ/MM/AA)
 BEGIN
 
-	SELECT @Last_Id_Piece = MAX(Id_Piece) 
+	SELECT @Last_Id_Piece = MAX(idPiece) 
 	FROM QAGATE_1_MainTable																			-- Récupération de l'Id de la dernière pièce
 
-	SELECT @Last_OF = Current_OF 
+	SELECT @Last_OF = currentOF 
 	FROM QAGATE_1_MainTable 
-	WHERE Id_Piece = @Last_Id_Piece																	-- Récupération du code du dernier OF
+	WHERE idPiece = @Last_Id_Piece																	-- Récupération du code du dernier OF
 
-	SELECT TOP 1 @Valeur_Date_OF =  CONVERT(VARCHAR, CAST(Heure_Reseau AS DATE) , 3)
+	SELECT TOP 1 @Valeur_Date_OF =  CONVERT(VARCHAR, CAST(timeStamp AS DATE) , 3)
 	FROM QAGATE_1_MainTable
-	WHERE Current_OF = @Last_OF																		-- Récupération de la date (JJ/MM/AA) (mode 3) de la première pièce de l'OF, et l'id de la piece
+	WHERE currentOF = @Last_OF																		-- Récupération de la date (JJ/MM/AA) (mode 3) de la première pièce de l'OF, et l'id de la piece
 
-	SELECT @Nbr_Piece_Actu = COUNT(Id_Piece)
+	SELECT @Nbr_Piece_Actu = COUNT(idPiece)
 	FROM QAGATE_1_MainTable			
-	WHERE (Current_OF = @Last_OF)																	-- Calcul du nombre de pièce actuelle
+	WHERE (currentOF = @Last_OF)																	-- Calcul du nombre de pièce actuelle
 
-	SELECT @Nbr_piece = Quantite 
+	SELECT @Nbr_piece = nombre 
 	FROM QAGATE_1_NombrePiece 
-	WHERE Id_Client = (SELECT Id_Client FROM QAGATE_1_Reference WHERE Names = (SELECT Reference FROM QAGATE_1_MainTable WHERE Id_Piece = @Last_Id_Piece))
+	WHERE idClient = (SELECT idClient FROM QAGATE_1_Reference WHERE nameReference = (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
 																									-- Récupération du nombre de pièce
 	IF (@Nbr_Piece > 0)																				-- Sécurité si Nbr_Piece est négatif (erreur d'encodage)
 		SELECT @Avancement = (CAST(@Nbr_Piece_Actu AS DECIMAL(5,1))*100)/@Nbr_Piece					-- Calcul de l'avancement par rapport au nombre de pièce d'un OF

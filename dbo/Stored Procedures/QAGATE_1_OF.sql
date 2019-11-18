@@ -17,12 +17,12 @@ AS
 			@Valeur_OF VARCHAR(10)
 BEGIN
 
-	SELECT @Last_Id_Piece = MAX(Id_Piece) 
+	SELECT @Last_Id_Piece = MAX(idPiece) 
 	FROM QAGATE_1_MainTable																			-- Récupération de l'Id e la dernière pièce
 
-	SELECT @Valeur_OF = Current_OF 
+	SELECT @Valeur_OF = currentOF 
 	FROM QAGATE_1_MainTable 
-	WHERE Id_Piece = @Last_Id_Piece																	-- Récupération du code du dernière OF
+	WHERE idPiece = @Last_Id_Piece																	-- Récupération du code du dernière OF
 
 	SELECT @Valeur_OF AS 'OF'																		-- Affichage de la valeur de sortie procédure
 
