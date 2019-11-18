@@ -21,6 +21,7 @@ CREATE TRIGGER [dbo].[QAGATE_1_TriggerKeyence]
 	FOR INSERT
 	AS
 	BEGIN
+		BEGIN TRANSACTION
 		CREATE TABLE #File																			-- Création d'une table permettant de contenir le nom des fichiers .txt
         (
 			FileName    SYSNAME,
@@ -86,4 +87,5 @@ CREATE TRIGGER [dbo].[QAGATE_1_TriggerKeyence]
 		UPDATE QAGATE_1_KeyenceData SET [chanfrein4] = (SELECT TOP(1) Chanfrein_4 FROM #tempDATA ORDER BY Id_Keyence DESC) WHERE [idKeyence] = (SELECT TOP(1) [idKeyence] FROM QAGATE_1_KeyenceData ORDER BY [idKeyence] DESC)
 																									-- Ajout des données de la dernière pièce mesurée dans la table QAGATE_1_KeyenceData
 		DROP TABLE #tempDATA																		-- Suppression de la table temporaire #tempDATA
+		COMMIT
 	END
