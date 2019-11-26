@@ -1,7 +1,7 @@
 ﻿-- =============================================
 -- Author: <Minne Charly>
 -- Create date: <05/11/2019>
--- Update : <12/11/2019>
+-- Update : <26/11/2019>
 -- Description:	< Ce programme permet d'obtenir les numéros d'ârret + l'heure d'un OF. >
 -- =============================================
 
@@ -29,7 +29,7 @@ BEGIN
 	FROM QAGATE_1_MainTable 
 	WHERE idPiece = @Last_Id_Piece																	-- Récupération du code du dernier OF
 
-	SELECT code, CONVERT(TIME(0), timeStamp) AS 'timeStamp'											-- Récupération du nombres des arrêts + heure d'un OF
+	SELECT currentOF, code, etat, timeStamp															-- Récupération du nombres des arrêts + heure d'un OF
 	FROM QAGATE_1_EventData 
 	WHERE (currentOF = @OF)				 
 
