@@ -1,0 +1,4 @@
+﻿CREATE VIEW [dbo].[QAGATE_1_ViewCycleUE24]
+	AS SELECT TOP(200) * FROM [QAGATE_1_MainTable]
+	   WHERE Reference IN ('490035-3200', '490035-3300')
+	   ORDER BY timeStamp DESC

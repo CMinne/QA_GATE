@@ -180,10 +180,6 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Views\QAGATE_1_EventJour.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
     <Build Include="Security\DOMZEXEL_chamin.sql" />
     <Build Include="Security\RoleMemberships.sql" />
     <Build Include="dbo\Stored Procedures\QAGATE_1_Rebut_Team.sql">
@@ -267,6 +263,11 @@
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
     <Build Include="dbo\Stored Procedures\QAGATE_1_OFDate.sql" />
+    <Build Include="dbo\Stored Procedures\QAGATE_1_PredictionFinOF.sql" />
+    <Build Include="dbo\Stored Procedures\QAGATE_1_ExtractionQG.sql" />
+    <Build Include="dbo\Views\QAGATE_1_ViewCycleUE21.sql" />
+    <Build Include="dbo\Views\QAGATE_1_ViewCycleUE24.sql" />
+    <Build Include="dbo\Stored Procedures\QAGATE_1_CycleMoyen.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="QA_GATE.refactorlog" />
