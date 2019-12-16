@@ -45,8 +45,7 @@ BEGIN
 	FROM QAGATE_1_MainTable 
 	WHERE (((OK = 0 AND (keyenceEtat=0 AND kogameEtat=0))    OR    (OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1)))   AND   timeStamp > @DateTime_H AND currentOF = @OF)
 
-
-	IF((SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT reference FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
+	IF((SELECT idClient FROM QAGATE_1_Reference INNER JOIN QAGATE_1_MainTable ON nameReference = reference WHERE idPiece = @First_Id_Piece) != (SELECT idClient FROM QAGATE_1_Reference INNER JOIN QAGATE_1_MainTable ON nameReference = reference WHERE idPiece = @Last_Id_Piece))
 		BEGIN																						-- Vérifie si la référence de la pièce juste après 06:00:00 et la dernière sont identiques
 																									-- Si pas, alors faire ceci
 			SELECT @OF = currentOF 

@@ -48,8 +48,10 @@ BEGIN
 		END
 	ELSE
 		BEGIN
-			SET @Pourcent_Key = (@Rebut_Key*100)/(@Rebut_Key + @Rebut_Kog)							-- Calcul du pourcentage de rebut Keyence
-			SET @Pourcent_Kog = (@Rebut_Kog*100)/(@Rebut_Key + @Rebut_Kog)							-- Calcul du pourcentage de rebut Kogame
+			SET @Pourcent_Key = ROUND((CAST(@Rebut_Key AS DECIMAL(5,1))*100)/(CAST(@Rebut_Key AS DECIMAL(5,1))+ CAST(@Rebut_Kog AS DECIMAL(5,1))), 0)						
+																											-- Calcul du pourcentage de rebut Keyence
+			SET @Pourcent_Kog = ROUND((CAST(@Rebut_Kog AS DECIMAL(5,1))*100)/(CAST(@Rebut_Key AS DECIMAL(5,1))+ CAST(@Rebut_Kog AS DECIMAL(5,1))), 0)							
+																											-- Calcul du pourcentage de rebut Kogame
 		END
 
 	SELECT @Rebut_Tot AS 'Total', @Rebut_Key AS 'Keyence', @Pourcent_Key AS 'PKeyence', @Rebut_Kog AS 'Kogame', @Pourcent_Kog AS 'PKogame'								

@@ -54,7 +54,7 @@ BEGIN
 					FROM QAGATE_1_MainTable 
 					WHERE idPiece = @Last_Id_Piece													-- Numéro d'OF
 
-					IF((SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
+					IF((SELECT idClient FROM QAGATE_1_Reference INNER JOIN QAGATE_1_MainTable ON nameReference = reference WHERE idPiece = @First_Id_Piece) != (SELECT idClient FROM QAGATE_1_Reference INNER JOIN QAGATE_1_MainTable ON nameReference = reference WHERE idPiece = @Last_Id_Piece))
 						BEGIN																		-- Vérifie si la référence de la pièce juste après 06:00:00 et la dernière sont identiques
 																									-- Si pas, alors faire ceci
 
@@ -99,7 +99,7 @@ BEGIN
 					FROM QAGATE_1_MainTable 
 					WHERE idPiece = @Last_Id_Piece													-- Numéro d'OF
 
-					IF((SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
+					IF((SELECT idClient FROM QAGATE_1_Reference INNER JOIN QAGATE_1_MainTable ON nameReference = reference WHERE idPiece = @First_Id_Piece) != (SELECT idClient FROM QAGATE_1_Reference INNER JOIN QAGATE_1_MainTable ON nameReference = reference WHERE idPiece = @Last_Id_Piece))
 						BEGIN																		-- Vérifie si la référence de la pièce juste après 06:00:00 et la dernière sont identiques
 																									-- Si pas, alors faire ceci
 							
@@ -144,7 +144,7 @@ BEGIN
 					FROM QAGATE_1_MainTable 
 					WHERE idPiece = @Last_Id_Piece													-- Numéro d'OF
 
-					IF((SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @First_Id_Piece) != (SELECT currentOF FROM QAGATE_1_MainTable WHERE idPiece = @Last_Id_Piece))
+					IF((SELECT idClient FROM QAGATE_1_Reference INNER JOIN QAGATE_1_MainTable ON nameReference = reference WHERE idPiece = @First_Id_Piece) != (SELECT idClient FROM QAGATE_1_Reference INNER JOIN QAGATE_1_MainTable ON nameReference = reference WHERE idPiece = @Last_Id_Piece))
 						BEGIN																		-- Vérifie si la référence de la pièce juste après 06:00:00 et la dernière sont identiques
 																									-- Si pas, alors faire ceci
 

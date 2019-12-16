@@ -1,7 +1,7 @@
 ﻿-- =============================================
 -- Author: <Minne Charly>
 -- Create date: <10/10/2019>
--- Update : <14/11/2019>
+-- Update : <16/12/2019>
 -- Description:	< Ce programme permet d'obtenir les prévions, les pièces actuelles, et le delta d'un l'OF. >
 -- =============================================
 
@@ -32,33 +32,41 @@ BEGIN
 	SELECT @Last_Id_Piece = MAX(idPiece) 
 	FROM QAGATE_1_MainTable																			-- Récupération de l'id de la dernière pièce
 
+	SET @Temps_S = 0
+
 	SELECT @OF = currentOF 
 	FROM QAGATE_1_MainTable 
 	WHERE idPiece = @Last_Id_Piece																	-- Récupération du code du dernier OF
 
 	SET @DateTime_OF_First = (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp ASC)
 																									-- Récupération de la date de la première pièce de l'OF
-
+	SET @DateTime_OF_Last = (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp DESC)
+																									-- Récupération de la date de la dernière pièce de l'OF
 	IF(CAST(@DateTime_OF_First AS TIME(0)) >= '06:00:00' AND CAST(@DateTime_OF_First AS TIME(0)) < '14:00:00')
 		BEGIN
-
-			SET @Temps_S = DATEDIFF(SECOND, @DateTime_OF_First, CONCAT(CAST(@DateTime_OF_First AS DATE), ' ', '14:00:00'))
-			
-																									-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF
-
 			SET @Heure = CAST('14:00:00' AS TIME(0))												-- Set variable @Heure à 14:00:00 pour dire que c'est à partir de là qu'il faut regarder maintenant 
 			SET @Date = CAST(@DateTime_OF_First AS DATE)											-- Set variable @Date à jour de la première pièce de l'OF pour dire que c'est à partir de là qu'il faut regarder maintenant 
 
+			SELECT @Temp_Count_Piece = COUNT(idPiece) 
+			FROM QAGATE_1_MainTable 
+			WHERE currentOF = @OF AND (timeStamp >= CONCAT(CAST(@Date AS DATE), ' ', @Heure))
+
+			IF(NOT(@Temp_Count_Piece = 0))
+				SET @Temps_S = DATEDIFF(SECOND, @DateTime_OF_First, CONCAT(CAST(@DateTime_OF_First AS DATE), ' ', '14:00:00'))
+			
 		END
 
 	ELSE IF(CAST(@DateTime_OF_First AS TIME(0)) >= '14:00:00' AND CAST(@DateTime_OF_First AS TIME(0)) < '22:00:00')
 		BEGIN
-
-			SET @Temps_S = DATEDIFF(SECOND, @DateTime_OF_First, CONCAT(CAST(@DateTime_OF_First AS DATE), ' ', '22:00:00'))						
-																									-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF
-			
 			SET @Heure = CAST('22:00:00' AS TIME(0))												-- Set variable @Heure à 22:00:00 pour dire que c'est à partir de là qu'il faut regarder maintenant 
 			SET @Date = CAST(@DateTime_OF_First AS DATE)											-- Set variable @Date à jour de la première pièce de l'OF pour dire que c'est à partir de là qu'il faut regarder maintenant 
+
+			SELECT @Temp_Count_Piece = COUNT(idPiece) 
+			FROM QAGATE_1_MainTable 
+			WHERE currentOF = @OF AND (timeStamp >= CONCAT(CAST(@Date AS DATE), ' ', @Heure))
+
+			IF(NOT(@Temp_Count_Piece = 0))
+				SET @Temps_S = DATEDIFF(SECOND, @DateTime_OF_First, CONCAT(CAST(@DateTime_OF_First AS DATE), ' ', '22:00:00'))						
 
 		END
 
@@ -72,29 +80,29 @@ BEGIN
 			SET @Date = DATEADD(DAY, 1, CAST(@DateTime_OF_First AS DATE))							-- Set variable @Date à jour + 1 de la première pièce de l'OF pour dire que c'est à partir de là qu'il faut regarder maintenant 
 		
 		END
-	
+
 	WHILE(1=1)
 		BEGIN
 			SELECT @Temp_Count_Piece = COUNT(idPiece) 
 			FROM QAGATE_1_MainTable 
 			WHERE currentOF = @OF AND timeStamp >= CONCAT(@Date, ' ', DATEADD(HOUR, 8, @Heure))		-- Compte si il reste des pièces après date heure+8. Détermine si on est dans le dernier créneau horaire. 
 
-
 			IF(NOT(@Temp_Count_Piece = 0))
 				BEGIN
 					IF(@Heure = '06:00:00' OR @Heure = '14:00:00')
 						BEGIN
-
+							
 							SELECT @Temp_Count_Piece = COUNT(idPiece) 
 							FROM QAGATE_1_MainTable 
 							WHERE currentOF = @OF AND (timeStamp >= CONCAT(CAST(@Date AS DATE), ' ', @Heure) AND timeStamp < CONCAT(CAST(@Date AS DATE), ' ', DATEADD(HOUR, 8, @Heure)))
 																									-- Compte le nombre de pièce entre le créneau 06:00:00/14:00:00 ou 14:00:00/22:00:00
 							IF(NOT(@Temp_Count_Piece = 0))											-- Si il y a des pièces dans ce créneau
 								BEGIN
-
+									
 									SET @Temps_S += DATEDIFF(SECOND, '00:00:00', '08:00:00' )		-- Alors on ajoute les 8h d'ouverture de la ligne (Car il y a normalement un opérateur présent)
 
 								END
+							
 							SET @Heure = CAST(DATEADD(HOUR, 8, @Heure) AS TIME(0))					-- On avance d'un créneau
 
 						END
@@ -108,10 +116,10 @@ BEGIN
 
 							IF(NOT(@Temp_Count_Piece = 0))											-- Si il y a des pièces dans ce créneau
 								BEGIN
-
 									SET @Temps_S += DATEDIFF(SECOND, '00:00:00', '08:00:00' )		-- Alors on ajoute les 8h d'ouverture de la ligne (Car il y a normalement un opérateur présent)
 
 								END
+
 							SET @Heure = CAST(DATEADD(HOUR, 8, @Heure) AS TIME(0))					-- On avance d'un créneau
 							SET @Date = DATEADD(DAY, 1, @Date)										-- On avance d'un jour
 						END
@@ -120,18 +128,18 @@ BEGIN
 				END
 
 			ELSE
-				BREAK
-			
+				BEGIN
+					
+					SET @Temps_S += DATEDIFF(SECOND, CONCAT(@Date, ' ', @Heure), @DateTime_OF_Last)					
+																									-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF
+					BREAK
+				END
 		END
-	SET @DateTime_OF_Last = (SELECT TOP(1) timeStamp FROM QAGATE_1_MainTable WHERE currentOF = @OF ORDER BY timeStamp DESC)
-																									-- Récupération de la date de la dernière pièce de l'OF
+
 
 	SELECT @Actuel = COUNT(idPiece)																	-- Récupération du nombres de pièces contrôlées de l'OF
 	FROM QAGATE_1_MainTable 
 	WHERE (((OK = 0 AND (keyenceEtat=0 AND kogameEtat=0))    OR    (OK = 1 AND (keyenceEtat = 1 OR kogameEtat = 1)))   AND   currentOF = @OF)
-	
-
-	SET @Temps_S += DATEDIFF(SECOND, CONCAT(@Date, ' ', @Heure), @DateTime_OF_Last)					-- Calcul du temps en seconde entre la première pièce et la dernière pièce de l'OF
 
 																									
 	SELECT @Cycle = tempsCycle 

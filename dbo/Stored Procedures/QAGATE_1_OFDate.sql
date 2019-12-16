@@ -79,7 +79,7 @@ BEGIN
 
 	SELECT currentOF, reference, FORMAT (date_Debut, 'dd/MM/yy HH:mm:ss') AS 'dateDebut', FORMAT (date_Fin, 'dd/MM/yy HH:mm:ss') AS 'dateFin' 
 	FROM #temp_table
-	WHERE date_Debut >= @Debut AND date_Fin <= @Fin
+	WHERE date_Debut >= @Debut AND date_Fin <= DATEADD(DAY, 1, CAST(@Fin AS DATETIME))
 	ORDER BY date_Debut DESC
 	
 
