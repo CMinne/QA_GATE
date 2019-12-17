@@ -78,9 +78,9 @@ BEGIN
 				WHERE (timeStamp >= @DatePrev_Id AND timeStamp < @DateId) 
 				ORDER BY timeStamp DESC
 
-				IF (@EventEtat = 3 AND @Code = 0)													-- Si QA Gate Repasse en ON, flag = 1
+				IF ((@EventEtat = 3 AND @Code = 0) OR @EventEtat IS NULL)							-- Si QA Gate Repasse en ON, flag = 1
 					SET @Flag = 1
-				ELSE IF (@EventEtat = 0 OR @EventEtat = 1 OR @EventEtat = 2)											-- Si GA Gate passe en setup ou OFF, Flag = 0
+				ELSE IF (@EventEtat = 0 OR @EventEtat = 1 OR @EventEtat = 2)						-- Si GA Gate passe en setup ou OFF, Flag = 0
 					SET @Flag = 0
 
 				--SELECT @EventEtat AS 'Etat', @Code AS 'Code', @DatePrev_Id AS 'Date Prev', @Id AS 'Date' 

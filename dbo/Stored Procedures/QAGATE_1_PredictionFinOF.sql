@@ -75,18 +75,18 @@ BEGIN
 
 			SELECT @DateId = timeStamp 
 			FROM QAGATE_1_MainTable 
-			WHERE idPiece = @Id																	-- Récupération de l'horodatage de @Id
+			WHERE idPiece = @Id																		-- Récupération de l'horodatage de @Id
 
 			SELECT @DatePrev_Id = timeStamp 
 			FROM QAGATE_1_MainTable 
-			WHERE idPiece = @Prev_Id															-- Récupération de l'horodatage de @Prev_Id
+			WHERE idPiece = @Prev_Id																-- Récupération de l'horodatage de @Prev_Id
 
-			SELECT TOP(1) @EventEtat = Etat, @Code = code										-- Détermination de l'état du système entre les deux contrôles des pièces
+			SELECT TOP(1) @EventEtat = Etat, @Code = code											-- Détermination de l'état du système entre les deux contrôles des pièces
 			FROM QAGATE_1_EventData 
 			WHERE (timeStamp >= @DatePrev_Id AND timeStamp < @DateId) 
 			ORDER BY timeStamp DESC
 					
-			IF (@EventEtat = 3 AND @Code = 0)														-- Si QA Gate Repasse en ON, flag = 1
+			IF ((@EventEtat = 3 AND @Code = 0) OR @EventEtat IS NULL)								-- Si QA Gate Repasse en ON, flag = 1
 				SET @Flag = 1
 			ELSE IF (@EventEtat = 0 OR @EventEtat = 1 OR @EventEtat = 2)							-- Si GA Gate passe en setup ou OFF, Flag = 0
 				SET @Flag = 0
@@ -100,7 +100,8 @@ BEGIN
 											QAGATE_1_MainTable t2
 										WHERE t1.idPiece = @Prev_Id AND t2.idPiece = @Id)			-- Jointure croisée pour soustraire les temps des deux pièces
 				END
-			SET @EventEtat = NULL	
+			SET @EventEtat = NULL
+			SET @Code = NULL
 			SET @NbrRows -= 1																		-- Décrémentation
 			SET @Id = @Prev_Id																		-- On déplace le pointeurs
 
