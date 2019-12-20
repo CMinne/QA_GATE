@@ -47,7 +47,8 @@ BEGIN
 	WHERE idPiece = @Last_Id_Piece																	-- Numéro d'OF
 
 -- Pour chaque équipe
-	SET @Numero_Jour = DATEPART(DW, GETDATE());														-- Détermine le numéro du jour actuel
+	-- SET @Numero_Jour = DATEPART(DW, GETDATE());														-- Détermine le numéro du jour actuel
+	SET @Numero_Jour = 0
 	-- Semaine 
 	IF(@Numero_Jour != 1 OR @Numero_Jour != 7)														-- Détermine si on est le week-end
 		BEGIN

@@ -1,11 +1,4 @@
-﻿USE [Plc_prod]
-GO
-/****** Object:  StoredProcedure [dbo].[QAGATE_1_ExtractionQG]    Script Date: 16/12/2019 10:41:16 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
+﻿-- =============================================
 -- Author: <Minne Charly>
 -- Create date: <04/12/2019>
 -- Update: <12/12/2019>

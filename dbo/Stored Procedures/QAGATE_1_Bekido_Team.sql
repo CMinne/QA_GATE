@@ -40,7 +40,8 @@ BEGIN
 	SET @First_Id_Piece = (SELECT TOP(1) idPiece FROM QAGATE_1_MainTable WHERE timeStamp >= @DateTime_H ORDER BY timeStamp ASC)
 																									-- Récupération de l'id du premier OF après 06:00:00
 -- Pour chaque équipe
-	SET @Numero_Jour = DATEPART(DW, GETDATE());														-- Détermine le numéro du jour actuel
+	-- SET @Numero_Jour = DATEPART(DW, GETDATE());													-- Détermine le numéro du jour actuel
+	SET @Numero_Jour = 0
 	-- Semaine 
 	IF(@Numero_Jour != 1 OR @Numero_Jour != 7)														-- Détermine si on est le week-end
 		BEGIN
